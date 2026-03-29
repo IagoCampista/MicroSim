@@ -76,6 +76,8 @@ Idealmente, é `recomendado` preencher todos os campos com algum valor válido p
 
 Como mencionado anteriormente, arquivos de estado também são usados em testes, que começa com o estado inicial definido pela seção "inicio", e o estado final do simulador é comparado com os valores da seção "fim".
 
+Para inicializar células de memória na seção `inicio`, o campo aceito atualmente é `memoria.substituicoes`. O campo `memoria` sem sufixo é usado na seção `fim` para validar o conteúdo esperado da memória após a execução do teste.
+
 ### .MEM
 
 [WIP]
@@ -95,6 +97,12 @@ a instrução de carregamento para passar pela ULA, a qual é responsável por m
 
 Atualmente, foi decidido por remover as atualizações de flags após carregamento. Uma das razões é que ainda não foi determinado se isso sempre é verdade, pois na instrução `XAB` não há atualização das flags; então teria que ser explorado se isso só ocorre especificamente durante o carregamento vindo da memória ou algo assim.
 Outra razão da remoção foi por conta da decisão que apenas a `ULA` pode provocar a verificação das flags. Mas se for desejável manter o mesmo comportamento (após entendê-lo melhor), então seria possível usar a mesma abordagem do trabalho mencionado: adicionar microoperações nas intruções que provoque uma soma com zero na `ULA`, causando atualização nas flags que não cause nenhuma perturbação na execução.
+
+Também foi adotada uma separação explícita entre operações aritméticas de dados e operações internas de endereçamento. As instruções que operam sobre os registradores de 8 bits `A` e `B`, como `ADA`, `ADB`, `SUA` e `SUB`, agora calculam `Z`, `N`, `C` e `O` considerando apenas 1 byte. Isso evita que resultados como `0x00 - 0x01 = 0xFF` percam a sinalização esperada de negativo por serem avaliados como se fossem números de 16 bits.
+
+Em contrapartida, somas internas usadas apenas para cálculo de endereço, como a composição de `MAR + IX` durante endereçamentos indexados, continuam sendo realizadas em 16 bits e não atualizam flags. Essa separação foi necessária para impedir que cálculos de endereço interfiram no estado lógico do programa e, ao mesmo tempo, manter coerência nas instruções aritméticas visíveis ao usuário.
+
+Na prática, isso significa que as flags passam a representar o resultado da última operação aritmética relevante do programa, e não efeitos colaterais de microoperações de navegação na memória. Um exemplo é `SUB #01` com `B = 00`, cujo resultado final é `FF`; nesse caso, o comportamento esperado passa a ser `Z = 0`, `N = 1`, `C = 0` e `O = 0`.
 
 ### Descontinuidade (o)
 

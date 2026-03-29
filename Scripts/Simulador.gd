@@ -168,7 +168,7 @@ func preparar_enderecamento():
 
 			self.adicionar_a_fila("transferir_mar_para_alu_a")
 			self.adicionar_a_fila("transferir_ix_para_alu_b")
-			self.adicionar_a_fila("adicao_alu_a_alu_b")
+			self.adicionar_a_fila("adicao_alu_a_alu_b_16_bits")
 			self.adicionar_a_fila("transferir_alu_saida_para_mar")
 
 			# O PC é incrementado em 2
@@ -200,7 +200,7 @@ func preparar_enderecamento():
 			
 			self.adicionar_a_fila("transferir_mar_para_alu_a")
 			self.adicionar_a_fila("transferir_ix_para_alu_b")
-			self.adicionar_a_fila("adicao_alu_a_alu_b")
+			self.adicionar_a_fila("adicao_alu_a_alu_b_16_bits")
 			self.adicionar_a_fila("transferir_alu_saida_para_mar")
 
 			# Transferência do MAR para o Endereço de Memória via o BUS de Endereço
@@ -325,7 +325,7 @@ func preparar_enderecamento():
 			# Somar o valor de IX ao endereço calculado
 			self.adicionar_a_fila("transferir_mar_para_alu_a")
 			self.adicionar_a_fila("transferir_ix_para_alu_b")
-			self.adicionar_a_fila("adicao_alu_a_alu_b")
+			self.adicionar_a_fila("adicao_alu_a_alu_b_16_bits")
 			self.adicionar_a_fila("transferir_alu_saida_para_mar")
 			
 			# O PC é incrementado em 2

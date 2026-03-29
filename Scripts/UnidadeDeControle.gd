@@ -183,7 +183,13 @@ func transferir_aux_para_endereco_selecionado() -> void:
 func adicao_alu_a_alu_b() -> void:
 	var parcela_um	: int 	= CPU.alu_entrada_a.como_int()
 	var parcela_dois: int 	= CPU.alu_entrada_b.como_int()
-	var resultado	: Valor = self._realizar_adicao(parcela_um, parcela_dois, 2, true)
+	var resultado	: Valor = self._realizar_adicao(parcela_um, parcela_dois, 1, true)
+	CPU.atualizar_alu_saida(resultado)
+
+func adicao_alu_a_alu_b_16_bits() -> void:
+	var parcela_um	: int 	= CPU.alu_entrada_a.como_int()
+	var parcela_dois: int 	= CPU.alu_entrada_b.como_int()
+	var resultado	: Valor = self._realizar_adicao(parcela_um, parcela_dois, 2, false)
 	CPU.atualizar_alu_saida(resultado)
 
 func unir_mbr_ao_aux_e_transferir_para_mar() -> void:
