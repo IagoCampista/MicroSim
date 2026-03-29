@@ -128,6 +128,8 @@ Seria bom rever as menções nos recursos das instruções os nomes das flags e 
 * Na instrução `DIV` é explicitado que os registradores `A` e `B` são concatenados e enviados à `ULA entrada A` para formar o dividendo (ou seja, um número de 2 bytes), o parâmetro da instrução é enviado à `ULA entrada B` como o divisor, e a divisão ocorre. Na saída, apenas o nibble superior da divisão é mantido, enquanto o inferior é substituído pelo valor do resto. Esse número é então dividido e enviado para eventualmente popular os registradores `A` e `B`.
 Após realizar alguns testes manuais e consultas, parece que o cálculo de divisão do Micro3 está incorreto. Então o cálculo desenvolvido nessa aplicação vai ser utilizada em seu lugar, logo, os resultados entre os simuladores serão diferentes.
 
+* O fluxo de execução também passou a interromper de forma segura os casos em que a decodificação não encontra uma instrução válida para o opcode lido na memória. Antes dessa correção, a máquina de estados ainda avançava para a fase de endereçamento, o que causava acesso a propriedades de uma instrução nula e resultava em erro durante a execução visual. Com a alteração, a simulação é encerrada e retorna para um estado suspenso sem prosseguir para as fases seguintes.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.

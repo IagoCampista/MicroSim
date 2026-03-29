@@ -444,10 +444,17 @@ class Decodificacao extends Fase:
 		Simulador.preparar_decodificacao()
 	
 	func saída() -> void:
+		if not Simulador.instrucao_atual:
+			self.alterar_fase(Suspensao.new(Busca.new()))
+			return
 		self.alterar_fase(Enderecamento.new())
 
 class Enderecamento extends Fase:
 	func entrada() -> void:
+		if not Simulador.instrucao_atual:
+			Simulador.finalizar_execucao(false)
+			self.alterar_fase(Suspensao.new(Busca.new()))
+			return
 		Simulador.mudanca_de_ciclo.emit(Ciclo.EXECUCAO)
 		Simulador.preparar_enderecamento()
 	
