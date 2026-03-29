@@ -6,7 +6,7 @@ signal mudanca_de_ciclo
 signal programa_iniciado
 
 
-enum Ciclo 			{ BUSCA, DECODIFICACAO, EXECUCAO }
+enum Ciclo 			{ BUSCA, DECODIFICACAO, ENDERECAMENTO, EXECUCAO }
 enum ModoExecucao 	{ UNICA_MICROOPERACAO, UNICA_INSTRUCAO, TUDO }
 
 @export var time_delay 		: float 		= 0.1
@@ -57,7 +57,7 @@ func executar_proxima_microoperacao_da_fila():
 		CPU.call(instrucao)
 	else:
 		if instrucao == "---":
-			self.mudanca_de_ciclo.emit(Ciclo.BUSCA)
+			pass
 		else:
 			if UnidadeDeControle.has_method(instrucao):
 				UnidadeDeControle.call(instrucao)
@@ -373,6 +373,7 @@ func obter_nome_fase() -> String:
 	match self.fase_atual:
 		Simulador.Ciclo.BUSCA: return "BUSCA"
 		Simulador.Ciclo.DECODIFICACAO: return "DECODIFICACAO"
+		Simulador.Ciclo.ENDERECAMENTO: return "ENDERECAMENTO"
 		Simulador.Ciclo.EXECUCAO: return "EXECUCAO"
 		_:
 			return "SUSPENSAO"
@@ -396,6 +397,7 @@ func obter_ciclo_atual() -> String:
 	match self.ciclo_atual:
 		Ciclo.BUSCA: return "BUSCA"
 		Ciclo.DECODIFICACAO: return "DECODIFICACAO"
+		Ciclo.ENDERECAMENTO: return "ENDERECAMENTO"
 		Ciclo.EXECUCAO: return "EXECUCAO"
 		_:
 			return ""
@@ -456,7 +458,7 @@ class Enderecamento extends Fase:
 			Simulador.finalizar_execucao(false)
 			self.alterar_fase(Suspensao.new(Busca.new()))
 			return
-		Simulador.mudanca_de_ciclo.emit(Ciclo.EXECUCAO)
+		Simulador.mudanca_de_ciclo.emit(Ciclo.ENDERECAMENTO)
 		Simulador.preparar_enderecamento()
 	
 	func saída() -> void:
@@ -469,6 +471,7 @@ class Enderecamento extends Fase:
 
 class Execucao extends Fase:
 	func entrada() -> void:
+		Simulador.mudanca_de_ciclo.emit(Ciclo.EXECUCAO)
 		Simulador.preparar_execucao()
 	
 	func saída() -> void:

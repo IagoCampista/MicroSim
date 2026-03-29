@@ -339,6 +339,7 @@ func fase_foi_alterada(fase: Simulador.Ciclo):
 	match fase:
 		Simulador.Ciclo.BUSCA: fase_atual += "BUSCA"
 		Simulador.Ciclo.DECODIFICACAO: fase_atual += "DECODIFICAÇÃO"
+		Simulador.Ciclo.ENDERECAMENTO: fase_atual += "ENDEREÇAMENTO"
 		Simulador.Ciclo.EXECUCAO: fase_atual += "EXECUÇÃO"
 	
 	print(fase_atual)

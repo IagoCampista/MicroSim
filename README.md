@@ -134,6 +134,10 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * Também foi adicionada validação explícita para acessos fora da faixa válida da memória. Como a RAM simulada possui 4096 posições, endereços calculados acima desse limite em modos de endereçamento indireto ou indexado podem surgir quando a execução alcança regiões inválidas da memória. Nesses casos, o simulador agora detecta a leitura ou escrita inválida, sinaliza a falha e encerra a execução de forma controlada, evitando erros de acesso a índices inexistentes no arranjo de memória.
 
+* O marcador interno `"---"`, utilizado apenas como separador entre blocos de microoperações na fila do simulador, deixou de forçar artificialmente a interface para o ciclo de `BUSCA`. Antes dessa correção, esse marcador emitia uma mudança de ciclo incorreta e fazia com que a visualização apresentasse transições enganosas durante a decodificação e a execução. Com a alteração, o separador continua existindo apenas como organizador interno da fila, sem interferir no estado lógico exibido ao usuário.
+
+* Além disso, o simulador passou a distinguir explicitamente a fase de `ENDEREÇAMENTO` da fase de `EXECUÇÃO`. Embora o cálculo do endereço do operando já existisse internamente como etapa própria, ele era anteriormente agrupado sob o rótulo de execução, o que dificultava a interpretação do fluxo de microoperações. Com a separação, a interface visual e os logs passam a refletir com maior fidelidade a sequência real de etapas da CPU simulada: busca, decodificação, endereçamento e execução.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.
