@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+nome = "Or in A"
+"mnemônico" = "ORA"
+"descrição" = "Faz a função OU lógico entre o registrador A e o operando, e armazena o resultado em A."
+tamanho_do_dado = 1
+microoperacoes = ["transferir_mar_ao_endereco_de_memoria", "transferir_valor_da_memoria_ao_mbr", "transferir_a_para_alu_a", "transferir_mbr_para_alu_b", "realizar_ou_logico_alu_a_alu_b", "transferir_alu_saida_para_a"]
+direto = "13"
+imediato = "23"
+indexado = "33"
+indireto = "93"
+pos_indexado = "B3"
+pre_indexado = "C3"
+implicito = ""

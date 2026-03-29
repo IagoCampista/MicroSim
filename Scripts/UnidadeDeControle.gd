@@ -251,6 +251,11 @@ func realizar_e_logico_alu_a_alu_b():
 	var valor = Valor.new(resultado)
 	CPU.atualizar_alu_saida(valor)
 
+func realizar_ou_logico_alu_a_alu_b():
+	var resultado: int = CPU.alu_entrada_a.como_int() | CPU.alu_entrada_b.como_int()
+	var valor = Valor.new(resultado)
+	CPU.atualizar_alu_saida(valor)
+
 func realizar_divisao_na_alu():
 	var dividendo	: int = CPU.alu_entrada_a.como_int()
 	var divisor		: int = CPU.alu_entrada_b.como_int()
