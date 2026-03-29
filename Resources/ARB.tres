@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+nome = "Add carry in B"
+"mnemônico" = "ARB"
+"descrição" = "Adiciona ao registrador B o valor de um operando e o carry atual, armazenando o resultado em B."
+tamanho_do_dado = 1
+microoperacoes = ["transferir_mar_ao_endereco_de_memoria", "transferir_valor_da_memoria_ao_mbr", "transferir_b_para_alu_a", "transferir_mbr_para_alu_b", "adicao_alu_a_alu_b_com_carry", "transferir_alu_saida_para_b"]
+direto = "56"
+imediato = "66"
+indexado = "76"
+indireto = "D6"
+pos_indexado = "E6"
+pre_indexado = "F6"
+implicito = ""
