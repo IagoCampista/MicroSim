@@ -186,6 +186,12 @@ func adicao_alu_a_alu_b() -> void:
 	var resultado	: Valor = self._realizar_adicao(parcela_um, parcela_dois, 1, true)
 	CPU.atualizar_alu_saida(resultado)
 
+func adicao_alu_a_alu_b_com_carry() -> void:
+	var parcela_um	: int 	= CPU.alu_entrada_a.como_int()
+	var parcela_dois: int 	= CPU.alu_entrada_b.como_int() + CPU.flag_c.como_int()
+	var resultado	: Valor = self._realizar_adicao(parcela_um, parcela_dois, 1, true)
+	CPU.atualizar_alu_saida(resultado)
+
 func adicao_alu_a_alu_b_16_bits() -> void:
 	var parcela_um	: int 	= CPU.alu_entrada_a.como_int()
 	var parcela_dois: int 	= CPU.alu_entrada_b.como_int()
