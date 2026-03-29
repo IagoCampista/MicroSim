@@ -130,6 +130,8 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * O fluxo de execução também passou a interromper de forma segura os casos em que a decodificação não encontra uma instrução válida para o opcode lido na memória. Antes dessa correção, a máquina de estados ainda avançava para a fase de endereçamento, o que causava acesso a propriedades de uma instrução nula e resultava em erro durante a execução visual. Com a alteração, a simulação é encerrada e retorna para um estado suspenso sem prosseguir para as fases seguintes.
 
+* Também foi adicionada validação explícita para acessos fora da faixa válida da memória. Como a RAM simulada possui 4096 posições, endereços calculados acima desse limite em modos de endereçamento indireto ou indexado podem surgir quando a execução alcança regiões inválidas da memória. Nesses casos, o simulador agora detecta a leitura ou escrita inválida, sinaliza a falha e encerra a execução de forma controlada, evitando erros de acesso a índices inexistentes no arranjo de memória.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.
