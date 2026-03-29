@@ -1,5 +1,7 @@
 extends Node
 
+signal testes_concluidos
+
 var arquivo_de_teste 		: String
 var lista_de_testes			: Array[String] = []
 var teste_sem_erros			: bool = true
@@ -52,6 +54,7 @@ func _physics_process(_delta):
 			var mensagem = "Teste" + plural + " finalizado" + plural + " com " + status
 
 			Programa.status_atualizado.emit(mensagem)
+			self.testes_concluidos.emit(self.todos_testes_sem_erros, mensagem)
 		Estagio.PARADO:
 			pass
 

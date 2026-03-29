@@ -15,6 +15,7 @@ var fase_atual 				: Fase 			= Suspensao.new(Busca.new())
 var modo_atual 				: ModoExecucao	= ModoExecucao.TUDO
 var instrucao_atual			: Instrucao
 var atualizacao_visual_ativa: bool 			= true
+var log_microoperacoes		: bool 			= true
 var fila_de_microoperacoes	: Array 		= []
 var ciclo_atual				: Ciclo
 
@@ -49,7 +50,7 @@ func executar_proxima_microoperacao_da_fila():
 		_:
 			push_error("Operador de instrução inválido")
 	
-	if not Teste.em_modo_multiplos_teste():
+	if self.log_microoperacoes and not Teste.em_modo_multiplos_teste():
 		print("O simulador vai executar: ", instrucao, " | ", self.fila_de_microoperacoes)
 
 	if CPU.has_method(instrucao):

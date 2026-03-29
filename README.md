@@ -22,6 +22,8 @@ Para executar um progama, primeiro é necessário digitar o código fonte dele n
 
 Com o código na memória, para iniciar a execução basta indicar o endereço inicial e utilizar os botões de execução no modo que for desejado: avançar apenas uma microoperação, avançar uma instrução ou executar todo o código de uma vez. Essas opções permitem execução na medida em que é desejável para a compreensão do programa pelo usuário.
 
+Também foi adicionada uma entrada de execução headless para testes automatizados via linha de comando. Ela pode ser iniciada com `godot --headless --path . --scene res://Scenes/HeadlessRunner.tscn -- --teste res://Testes/arquivo.sta` para um único teste, ou com `godot --headless --path . --scene res://Scenes/HeadlessRunner.tscn -- --pasta res://Testes` para executar todos os arquivos `.sta` de uma pasta. Nesse modo, o simulador desativa a atualização visual, executa os testes usando a mesma infraestrutura interna da interface gráfica e encerra o processo com código `0` em caso de sucesso ou `1` em caso de falha.
+
 ### Montagem
 
 A rotina de montagem do código lê o código fonte linha a linha, transformando-as em bytes que serão salvos na memória.
