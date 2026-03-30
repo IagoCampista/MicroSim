@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_fa5cx"]
+
+[resource]
+script = ExtResource("1_fa5cx")
+nome = "Store PP"
+"mnemônico" = "STP"
+"descrição" = "Recopia o conteúdo do registrador PP para o endereço de memória indicado."
+microoperacoes = [
+	"transferir_mar_ao_endereco_de_memoria",
+	"dividir_pp_e_transferir_para_mbr_e_aux",
+	"transferir_aux_para_endereco_selecionado",
+	"incrementar_registrador_mar",
+	"transferir_mar_ao_endereco_de_memoria",
+	"transferir_mbr_para_endereco_selecionado"
+]
+direto = "1C"
+imediato = ""
+indexado = "3C"
+indireto = "9C"
+pos_indexado = "BC"
+pre_indexado = "CC"
+implicito = ""

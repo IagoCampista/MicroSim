@@ -140,6 +140,8 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * Além disso, o simulador passou a distinguir explicitamente a fase de `ENDEREÇAMENTO` da fase de `EXECUÇÃO`. Embora o cálculo do endereço do operando já existisse internamente como etapa própria, ele era anteriormente agrupado sob o rótulo de execução, o que dificultava a interpretação do fluxo de microoperações. Com a separação, a interface visual e os logs passam a refletir com maior fidelidade a sequência real de etapas da CPU simulada: busca, decodificação, endereçamento e execução.
 
+* As instruções `STP` e `TPX` passaram a reutilizar de forma explícita a infraestrutura de registradores de 16 bits do simulador. Para `TPX`, foi adicionada uma microoperação dedicada de transferência direta de `PP` para `IX`. Já `STP` utiliza a divisão de `PP` em dois bytes para posterior escrita em memória, seguindo a mesma convenção de armazenamento já empregada em `STX` e nas operações de pilha de 16 bits. Com isso, a manipulação dos registradores `PP` e `IX` permanece consistente em relação à ordem dos bytes e ao fluxo de microoperações.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.

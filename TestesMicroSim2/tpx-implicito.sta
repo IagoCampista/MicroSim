@@ -1,0 +1,20 @@
+versao="1.0"
+
+[inicio]
+registrador.pc="0"
+registrador.pp="1234"
+registrador.ix="0000"
+instrucoes=[
+	"TPX",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.pp="1234"
+registrador.ix="1234"
+memoria = {
+    "000": "82",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

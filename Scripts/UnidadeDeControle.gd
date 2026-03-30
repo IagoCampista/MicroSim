@@ -98,6 +98,9 @@ func transferir_b_para_a() -> void:
 func transferir_mar_para_pp() -> void:
 	CPU.atualizar_registrador_pp(CPU.registrador_mar)
 
+func transferir_pp_para_ix() -> void:
+	CPU.atualizar_registrador_ix(CPU.registrador_pp)
+
 func transferir_ix_para_a() -> void:
 	var resultado: PackedStringArray = CPU.registrador_ix.como_hex_array()
 	var nibble_inferior: String = resultado[-1]
@@ -222,6 +225,11 @@ func unir_mbr_ao_aux_e_transferir_para_alu_a() -> void:
 
 func dividir_ix_e_transferir_para_mbr_e_aux() -> void:
 	var registrador: PackedByteArray = CPU.registrador_ix.como_byte_array(4)
+	CPU.atualizar_registrador_aux(Valor.new(registrador[0]))
+	CPU.atualizar_registrador_mbr(Valor.new(registrador[1]))
+
+func dividir_pp_e_transferir_para_mbr_e_aux() -> void:
+	var registrador: PackedByteArray = CPU.registrador_pp.como_byte_array(4)
 	CPU.atualizar_registrador_aux(Valor.new(registrador[0]))
 	CPU.atualizar_registrador_mbr(Valor.new(registrador[1]))
 
