@@ -1,0 +1,18 @@
+versao="1.0"
+
+[inicio]
+registrador.pc="0"
+registrador.b="3C"
+instrucoes=[
+	"NOB",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.b="C3"
+memoria = {
+    "000": "4F",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}
