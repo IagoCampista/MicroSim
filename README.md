@@ -42,6 +42,8 @@ Esses dados são usados para criar um objeto `Instrucao`. Se a instrução possu
 
 No modo `imediato`, é possível ter um ou dois bytes como parâmetro e isso é determinado por cada instrução em si. O modo de endereçamento apenas não é o bastante para obter essa informação. No exemplo atual, a instrução foi identificada como `LDA` no modo `imediato`, e nesse caso o parâmetro sempre será um dado de 1 byte pois essa instrução irá carregar um valor no registrador `A` que suporta apenas 1 byte. Já no caso da instrução `LDP` no modo `imediato`, o parâmetro sempre terá 2 bytes, pois essa instrução é realizada sobre o `registrador PP` que tem 2 bytes.
 
+Por essa razão, o fluxo de endereçamento imediato no `Simulador.gd` foi ajustado para incrementar o `PC` de acordo com `tamanho_do_dado` da instrução atual, em vez de assumir sempre um único byte de operando. Essa alteração é necessária para instruções imediatas de 16 bits, como `LDP` e `LDX`, garantindo que os dois bytes do parâmetro sejam consumidos corretamente e que a próxima instrução seja buscada no endereço esperado.
+
 Continuando o exemplo de montagem: durante a criação do objeto `Instrucao`, o mnemônico é utilizado para consultar todas as instruções existentes no processador a fim de determinar qual é opcode referente à instrução no modo de endereçamento detectado e qual é o tamanho do parâmetro no modo imediato. O objeto então possui as seguintes informações:
 
 |                   |           |

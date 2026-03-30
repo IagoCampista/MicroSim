@@ -272,8 +272,9 @@ func preparar_enderecamento():
 			# Transferência de PC para MAR
 			self.adicionar_a_fila("transferir_pc_para_mar")
 
-			# PC é incrementado em 1
-			self.adicionar_a_fila("incrementar_registrador_pc")
+			# O PC é incrementado de acordo com o tamanho do operando
+			for _i in range(self.instrucao_atual.tamanho_do_dado):
+				self.adicionar_a_fila("incrementar_registrador_pc")
 		Instrucao.Enderecamentos.DIRETO:
 			# Transferência de PC para MAR
 			self.adicionar_a_fila("transferir_pc_para_mar")

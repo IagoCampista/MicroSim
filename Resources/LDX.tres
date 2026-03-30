@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_qxhaq"]
+
+[resource]
+script = ExtResource("1_qxhaq")
+nome = "Load IX"
+"mnemônico" = "LDX"
+"descrição" = "Armazena em IX o conteúdo do endereço de memória indicado."
+microoperacoes = [
+	"transferir_mar_ao_endereco_de_memoria",
+	"transferir_valor_da_memoria_ao_aux",
+	"incrementar_registrador_mar",
+	"transferir_mar_ao_endereco_de_memoria",
+	"transferir_valor_da_memoria_ao_mbr",
+	"unir_mbr_ao_aux_e_transferir_para_ix"
+]
+direto = "18"
+imediato = "28"
+indexado = "38"
+indireto = "98"
+pos_indexado = "B8"
+pre_indexado = "C8"
+implicito = ""
