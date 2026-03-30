@@ -142,6 +142,8 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * As instruções `STP` e `TPX` passaram a reutilizar de forma explícita a infraestrutura de registradores de 16 bits do simulador. Para `TPX`, foi adicionada uma microoperação dedicada de transferência direta de `PP` para `IX`. Já `STP` utiliza a divisão de `PP` em dois bytes para posterior escrita em memória, seguindo a mesma convenção de armazenamento já empregada em `STX` e nas operações de pilha de 16 bits. Com isso, a manipulação dos registradores `PP` e `IX` permanece consistente em relação à ordem dos bytes e ao fluxo de microoperações.
 
+* Para suportar as instruções de comparação `CPA`, `CPB` e `CPX`, a `UnidadeDeControle.gd` foi estendida com microoperações específicas de comparação em 8 e 16 bits. Essas rotinas reutilizam a lógica de complemento de dois e soma já existente na ULA apenas para atualizar as flags, sem sobrescrever os registradores comparados. Também foi adicionada uma microoperação de união de `MBR` e `AUX` diretamente na `ULA entrada B`, permitindo comparações de 16 bits com `IX` sem a necessidade de registradores intermediários extras.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.

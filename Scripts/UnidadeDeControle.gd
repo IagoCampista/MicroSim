@@ -223,6 +223,11 @@ func unir_mbr_ao_aux_e_transferir_para_alu_a() -> void:
 	var resultado: Valor = self._operacao_de_uniao_mbr_ao_aux()
 	CPU.atualizar_alu_entrada_a(resultado)
 
+func unir_mbr_ao_aux_e_transferir_para_alu_b() -> void:
+	var resultado: Valor = Valor.novo_de_valor(CPU.registrador_mbr)
+	resultado.somar_int(CPU.registrador_aux.como_int() << 8)
+	CPU.atualizar_alu_entrada_b(resultado)
+
 func dividir_ix_e_transferir_para_mbr_e_aux() -> void:
 	var registrador: PackedByteArray = CPU.registrador_ix.como_byte_array(4)
 	CPU.atualizar_registrador_aux(Valor.new(registrador[0]))
@@ -266,6 +271,18 @@ func realizar_ou_logico_alu_a_alu_b():
 	var resultado: int = CPU.alu_entrada_a.como_int() | CPU.alu_entrada_b.como_int()
 	var valor = Valor.new(resultado)
 	CPU.atualizar_alu_saida(valor)
+
+func comparar_alu_a_com_alu_b_8_bits() -> void:
+	var minuendo: int = CPU.alu_entrada_a.como_int()
+	var subtraendo: Valor = self._realizar_complemento_a_dois(CPU.alu_entrada_b)
+	var resultado: Valor = self._realizar_adicao(minuendo, self._filtrar_valor(subtraendo, 1).como_int(), 1, true)
+	CPU.atualizar_alu_saida(resultado)
+
+func comparar_alu_a_com_alu_b_16_bits() -> void:
+	var minuendo: int = CPU.alu_entrada_a.como_int()
+	var subtraendo: Valor = self._realizar_complemento_a_dois(CPU.alu_entrada_b)
+	var resultado: Valor = self._realizar_adicao(minuendo, self._filtrar_valor(subtraendo, 2).como_int(), 2, true)
+	CPU.atualizar_alu_saida(resultado)
 
 func realizar_divisao_na_alu():
 	var dividendo	: int = CPU.alu_entrada_a.como_int()

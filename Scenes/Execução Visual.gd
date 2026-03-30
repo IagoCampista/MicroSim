@@ -105,6 +105,8 @@ func atualizar_visualizacao():
 			adicionar_fila_registrador_interagindo(["MBR", "AUX", "IX"])
 		"unir_mbr_ao_aux_e_transferir_para_alu_a":
 			adicionar_fila_registrador_interagindo(["AUX", "ULAA"])
+		"unir_mbr_ao_aux_e_transferir_para_alu_b":
+			adicionar_fila_registrador_interagindo(["MBR", "AUX", "ULAB"])
 		"dividir_ix_e_transferir_para_mbr_e_aux":
 			adicionar_fila_registrador_interagindo(["IX", "MBR", "AUX"])
 		"dividir_pp_e_transferir_para_mbr_e_aux":
@@ -121,6 +123,8 @@ func atualizar_visualizacao():
 			adicionar_fila_registrador_interagindo(["MBR", "AUX", "IX"])
 		"unir_mbr_ao_aux_e_transferir_para_alu_a":
 			adicionar_fila_registrador_interagindo(["AUX", "ULAA"])
+		"unir_mbr_ao_aux_e_transferir_para_alu_b":
+			adicionar_fila_registrador_interagindo(["MBR", "AUX", "ULAB"])
 		"dividir_ix_e_transferir_para_mbr_e_aux":
 			adicionar_fila_registrador_interagindo(["IX", "MBR", "AUX"])
 		"dividir_pp_e_transferir_para_mbr_e_aux":
