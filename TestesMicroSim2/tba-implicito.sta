@@ -1,0 +1,20 @@
+versao="1.0"
+
+[inicio]
+registrador.pc="0"
+registrador.a="00"
+registrador.b="7F"
+instrucoes=[
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="7F"
+registrador.b="7F"
+memoria = {
+    "000": "42",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

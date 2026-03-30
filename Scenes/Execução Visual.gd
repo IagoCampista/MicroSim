@@ -141,6 +141,8 @@ func atualizar_visualizacao():
 			adicionar_fila_registrador_interagindo(["MBR", "ULAA"])
 		"transferir_mar_para_pc":
 			adicionar_fila_registrador_interagindo(["MAR", "PC"])
+		"transferir_a_para_b":
+			adicionar_fila_registrador_interagindo(["A", "B"])
 		"transferir_b_para_a":
 			adicionar_fila_registrador_interagindo(["B", "A"])
 		"transferir_mar_para_pp":

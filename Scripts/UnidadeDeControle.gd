@@ -89,6 +89,9 @@ func transferir_mbr_para_alu_a() -> void:
 func transferir_mar_para_pc() -> void:
 	CPU.atualizar_registrador_pc(CPU.registrador_mar)
 
+func transferir_a_para_b() -> void:
+	CPU.atualizar_registrador_b(CPU.registrador_a)
+
 func transferir_b_para_a() -> void:
 	CPU.atualizar_registrador_a(CPU.registrador_b)
 

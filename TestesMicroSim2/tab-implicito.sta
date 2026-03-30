@@ -1,0 +1,20 @@
+versao="1.0"
+
+[inicio]
+registrador.pc="0"
+registrador.a="3C"
+registrador.b="00"
+instrucoes=[
+	"TAB",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="3C"
+registrador.b="3C"
+memoria = {
+    "000": "41",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}
