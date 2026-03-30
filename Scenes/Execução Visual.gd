@@ -63,11 +63,6 @@ func _ready():
 	CPU.alu_saida_foi_atualizado.connect(atualizar_registrador.bind("ULASaida"))
 
 	Simulador.mudanca_de_ciclo.connect(fase_foi_alterada)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func atualizar_visualizacao():
 	# Resolvendo caixas
 	apagar_tweens()

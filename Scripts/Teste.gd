@@ -28,9 +28,9 @@ func _physics_process(_delta):
 			self.todos_testes_sem_erros = true
 
 			if self.tipo_de_execucao == TipoExecucao.MULTIPLOS_TESTES:
-				Programa.status_atualizado.emit("Testes em execução")
+				Programa.atualizar_status("Testes em execução")
 			else:
-				Programa.status_atualizado.emit("Teste em execução")
+				Programa.atualizar_status("Teste em execução")
 		Estagio.EM_EXECUCAO:
 			var teste_atual = lista_de_testes.pop_front()
 			print("###### ", teste_atual, " ######")
@@ -53,7 +53,7 @@ func _physics_process(_delta):
 			
 			var mensagem = "Teste" + plural + " finalizado" + plural + " com " + status
 
-			Programa.status_atualizado.emit(mensagem)
+			Programa.atualizar_status(mensagem)
 			self.testes_concluidos.emit(self.todos_testes_sem_erros, mensagem)
 		Estagio.PARADO:
 			pass

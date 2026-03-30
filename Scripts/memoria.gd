@@ -18,10 +18,6 @@ func _ready():
 
 	Estado.sobrecarregar_memoria.connect(sobrescrever_toda_a_memoria)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func atualizar_valor_no_endereco_selecionado(valor: Valor):
 	if not self.validar_endereco(self.endereco_selecionado, "escrita"):
 		return

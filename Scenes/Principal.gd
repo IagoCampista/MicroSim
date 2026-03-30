@@ -7,11 +7,5 @@ extends TabBar
 func _ready():
 	visualizador_hex.hex_foi_selecionado.connect(inspetor.atualizar_tela)
 	#Simulador.inicialização_finalizada.connect(restart_hex_view)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 #func restart_hex_view():
 	#%HexView.replace_by(load("res://Scenes/HexView.tscn").instantiate())

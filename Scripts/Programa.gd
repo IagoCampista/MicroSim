@@ -3,16 +3,6 @@ extends Node
 signal programa_carregado
 signal status_atualizado
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 static func obter_programa() -> PackedStringArray:
 	var programa: PackedStringArray = Estado.config_padrao.get_value("inicio", "instrucoes", [])
 
@@ -27,3 +17,6 @@ func carregar_programa(caminho):
 	var dados 	: PackedStringArray	= arquivo.get_as_text().split('\n')
 	arquivo.close()
 	self.programa_carregado.emit(dados)
+
+func atualizar_status(status: String) -> void:
+	self.status_atualizado.emit(status)
