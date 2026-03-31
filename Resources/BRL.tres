@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_uw60k"]
+
+[resource]
+script = ExtResource("1_uw60k")
+nome = "Branch if less"
+"mnemônico" = "BRL"
+"descrição" = "Ocorre um desvio para a instrução indicada se o valor for negativo."
+microoperacoes = [{
+"se_flag_n_igual_um": ["transferir_mar_para_pc"]
+}]
+direto = "A2"
+imediato = ""
+indexado = ""
+indireto = ""
+pos_indexado = ""
+pre_indexado = ""
+implicito = ""
