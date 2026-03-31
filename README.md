@@ -144,6 +144,8 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * Para suportar as instruções de comparação `CPA`, `CPB` e `CPX`, a `UnidadeDeControle.gd` foi estendida com microoperações específicas de comparação em 8 e 16 bits. Essas rotinas reutilizam a lógica de complemento de dois e soma já existente na ULA apenas para atualizar as flags, sem sobrescrever os registradores comparados. Também foi adicionada uma microoperação de união de `MBR` e `AUX` diretamente na `ULA entrada B`, permitindo comparações de 16 bits com `IX` sem a necessidade de registradores intermediários extras.
 
+* Para viabilizar as branches condicionais `BRE` e `BNE`, a `UnidadeDeControle.gd` passou a expor verificações booleanas específicas sobre a flag `Z`. Essas funções são usadas pelo simulador ao processar microoperações condicionais em formato de dicionário, no mesmo padrão já empregado em `DBN`. Com isso, o desvio continua reutilizando a microoperação `transferir_mar_para_pc`, mas sua execução passa a depender explicitamente do resultado lógico produzido por uma comparação anterior.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.

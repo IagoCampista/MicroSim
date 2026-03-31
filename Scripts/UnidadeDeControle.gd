@@ -316,6 +316,12 @@ func realizar_multiplicacao_na_alu_16_bits():
 func se_ix_diferente_de_zero():
 	return not CPU.registrador_ix.igual(Valor.new(0))
 
+func se_flag_z_igual_um() -> bool:
+	return CPU.flag_z.como_int() == 1
+
+func se_flag_z_igual_zero() -> bool:
+	return CPU.flag_z.como_int() == 0
+
 func atribuir_um_a_flag_c():
 	CPU.atualizar_flag_c(Valor.new(1))
 
