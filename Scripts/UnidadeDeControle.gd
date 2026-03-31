@@ -325,8 +325,14 @@ func se_flag_z_igual_zero() -> bool:
 func se_flag_n_igual_um() -> bool:
 	return CPU.flag_n.como_int() == 1
 
+func se_flag_n_igual_zero() -> bool:
+	return CPU.flag_n.como_int() == 0
+
 func se_flags_z_n_ambas_zero() -> bool:
 	return CPU.flag_z.como_int() == 0 and CPU.flag_n.como_int() == 0
+
+func se_flag_n_igual_um_ou_flag_z_igual_um() -> bool:
+	return CPU.flag_n.como_int() == 1 or CPU.flag_z.como_int() == 1
 
 func atribuir_um_a_flag_c():
 	CPU.atualizar_flag_c(Valor.new(1))

@@ -1,0 +1,32 @@
+versao="1.0"
+
+; Testa o BLE quando Z = 0 e N = 0.
+; CPA gera resultado positivo, então TBA deve executar.
+
+[inicio]
+registrador.pc="0"
+registrador.a="07"
+registrador.b="22"
+instrucoes=[
+	"CPA #05",
+	"BLE 0006",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="22"
+registrador.b="22"
+flag.n="0"
+flag.z="0"
+memoria = {
+    "000": "27",
+    "001": "05",
+    "002": "A3",
+    "003": "00",
+    "004": "06",
+    "005": "42",
+    "006": "58",
+    "007": "12",
+    "008": "00",
+}
