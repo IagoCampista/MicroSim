@@ -1,0 +1,27 @@
+versao="1.0"
+
+; Testa o BRA direto.
+; O desvio deve cair no CAL EXIT em 0004 e pular a instrução TBA em 0003.
+
+[inicio]
+registrador.pc="0"
+registrador.a="11"
+registrador.b="22"
+instrucoes=[
+	"BRA 0004",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="11"
+registrador.b="22"
+memoria = {
+    "000": "59",
+    "001": "00",
+    "002": "04",
+    "003": "42",
+    "004": "58",
+    "005": "12",
+    "006": "00",
+}
