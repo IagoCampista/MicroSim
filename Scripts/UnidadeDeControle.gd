@@ -31,6 +31,12 @@ func incrementar_registrador_a() -> void:
 	var valor: Valor = self._realizar_adicao(parcela_um, parcela_dois, 1, false)
 	CPU.atualizar_registrador_a(valor)
 
+func incrementar_registrador_b() -> void:
+	var parcela_um	: int = CPU.registrador_b.como_int()
+	var parcela_dois: int = 1
+	var valor: Valor = self._realizar_adicao(parcela_um, parcela_dois, 1, false)
+	CPU.atualizar_registrador_b(valor)
+
 func decrementar_registrador_pp() -> void:
 	var minuendo	: int 	= CPU.registrador_pp.como_int()
 	var subtraendo	: int 	= self._realizar_complemento_a_dois(Valor.new(1)).como_int()
@@ -48,6 +54,12 @@ func decrementar_registrador_a() -> void:
 	var subtraendo	: int 	= self._realizar_complemento_a_dois(Valor.new(1)).como_int()
 	var valor		: Valor = self._realizar_adicao(minuendo, subtraendo, 1, false)
 	CPU.atualizar_registrador_a(valor)
+
+func decrementar_registrador_b() -> void:
+	var minuendo	: int 	= CPU.registrador_b.como_int()
+	var subtraendo	: int 	= self._realizar_complemento_a_dois(Valor.new(1)).como_int()
+	var valor		: Valor = self._realizar_adicao(minuendo, subtraendo, 1, false)
+	CPU.atualizar_registrador_b(valor)
 
 func transferir_pc_para_mar() -> void:
 	CPU.atualizar_registrador_mar(CPU.registrador_pc)

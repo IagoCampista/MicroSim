@@ -156,6 +156,8 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * A implementação de `DEX` e `INX` consolidou também o tratamento explícito de incremento e decremento do registrador `IX` na `UnidadeDeControle.gd`. O simulador já possuía a microoperação de decremento, reaproveitada por `DBN` e `DEX`, e passou a contar também com uma microoperação própria de incremento em 16 bits para suportar `INX`. Com isso, as operações implícitas sobre `IX` seguem o mesmo padrão já adotado para `A`, `PP` e demais registradores manipulados diretamente pela Unidade de Controle.
 
+* De forma análoga, `DEB` e `INB` completaram o suporte explícito ao registrador `B` na `UnidadeDeControle.gd`. Para isso, foram adicionadas microoperações dedicadas de incremento e decremento em 8 bits, alinhando `B` ao mesmo padrão já disponível para `A` e evitando depender de sequências improvisadas para operações implícitas simples. Isso torna mais uniforme a organização interna da Unidade de Controle para registradores de propósito geral.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.
