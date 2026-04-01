@@ -1,0 +1,60 @@
+versao="1.0"
+
+; Usa SBA para gerar underflow, toma um branch por negativo e depois
+; restaura um pacote anterior de flags com PPF.
+;
+; Fluxo esperado:
+; 1. PHF salva as flags iniciais, com O=1, C=1, Z=1 e N=0.
+; 2. SBA com A=00 e B=01 produz A=FF e flags de resultado negativo.
+; 3. BRL deve desviar e pular o primeiro TBA.
+; 4. CLD e CRL mudam overflow e carry para provar que PPF realmente restaura.
+; 5. PPF devolve as flags iniciais.
+; 6. BRD deve desviar por causa do overflow restaurado e pular o segundo TBA.
+
+[inicio]
+registrador.pc="0"
+registrador.pp="0FFF"
+registrador.a="00"
+registrador.b="01"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="1"
+; 0000: salva flags
+; 0001: gera underflow
+; 0002-0004: branch por negativo
+; 0005: nao deve executar
+; 0006-0007: alteram flags
+; 0008: restaura flags
+; 0009-000B: branch por overflow restaurado
+; 000C: nao deve executar
+; 000D: encerramento
+instrucoes=[
+	"PHF",
+	"SBA",
+	"BRL 0006",
+	"TBA",
+	"CLD",
+	"CRL",
+	"PPF",
+	"BRD 000D",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - A terminar em FF por causa do SBA;
+; - B permanecer em 01;
+; - as flags finais voltarem ao pacote salvo por PHF;
+; - a pilha guardar o byte serializado das flags iniciais.
+registrador.a="FF"
+registrador.b="01"
+registrador.pp="0FFF"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="1"
+memoria = {
+	"FFF": "34",
+}

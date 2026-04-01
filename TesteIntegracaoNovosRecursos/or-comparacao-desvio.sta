@@ -1,0 +1,53 @@
+versao="1.0"
+
+; Combina OR em A e B com comparacoes e branches diferentes.
+; O objetivo e garantir que os resultados logicos produzidos sejam
+; usados corretamente pelas comparacoes seguintes.
+;
+; Fluxo esperado:
+; 1. ORA #03 transforma A=0C em 0F.
+; 2. CPA #0F produz igualdade, entao BRE deve desviar.
+; 3. O TBA logo apos o BRE deve ser pulado.
+; 4. ORB #0F transforma B=30 em 3F.
+; 5. CPB #40 produz diferenca, entao BNE deve desviar.
+; 6. O TAB final tambem deve ser pulado.
+
+[inicio]
+registrador.pc="0"
+registrador.a="0C"
+registrador.b="30"
+flag.z="0"
+flag.n="0"
+flag.c="0"
+flag.o="0"
+; 0000-0003: ORA e comparacao em A
+; 0004-0006: branch por igualdade
+; 0007: nao deve executar
+; 0008-000B: ORB e comparacao em B
+; 000C-000E: branch por diferenca
+; 000F: nao deve executar
+; 0010: encerramento
+instrucoes=[
+	"ORA #03",
+	"CPA #0F",
+	"BRE 0008",
+	"TBA",
+	"ORB #0F",
+	"CPB #40",
+	"BNE 0010",
+	"TAB",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - A terminar em 0F;
+; - B terminar em 3F;
+; - o TBA e o TAB pulados nao alterarem os registradores;
+; - as flags finais refletirem a ultima comparacao em B.
+registrador.a="0F"
+registrador.b="3F"
+flag.z="0"
+flag.n="1"
+flag.c="0"
+flag.o="0"

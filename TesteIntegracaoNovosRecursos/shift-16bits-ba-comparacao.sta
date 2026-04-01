@@ -1,0 +1,47 @@
+versao="1.0"
+
+; Encadeia os shifts de 16 bits sobre o par B:A e depois usa uma
+; comparacao para validar explicitamente o byte alto final.
+;
+; Fluxo esperado:
+; 1. SLD desloca B:A para a esquerda.
+; 2. SRD desfaz parcialmente o resultado com um shift logico a direita.
+; 3. SAD faz um shift aritmetico a direita sobre o valor de 16 bits.
+; 4. Ao final desse encadeamento, o byte alto deve ser 08 e o baixo A6.
+; 5. CPB #08 compara o byte alto final.
+; 6. BRE deve desviar e pular o TBA final.
+
+[inicio]
+registrador.pc="0"
+registrador.a="4D"
+registrador.b="91"
+flag.z="0"
+flag.n="0"
+flag.c="0"
+flag.o="0"
+; 0000-0002: shifts encadeados sobre B:A
+; 0003-0004: compara o byte alto final
+; 0005-0007: branch por igualdade
+; 0008: nao deve executar
+; 0009: encerramento
+instrucoes=[
+	"SLD",
+	"SRD",
+	"SAD",
+	"CPB #08",
+	"BRE 0009",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - B:A terminar em 08A6;
+; - a comparacao indicar igualdade;
+; - o TBA final nao executar.
+registrador.a="A6"
+registrador.b="08"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="0"
