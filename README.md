@@ -158,6 +158,12 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * De forma análoga, `DEB` e `INB` completaram o suporte explícito ao registrador `B` na `UnidadeDeControle.gd`. Para isso, foram adicionadas microoperações dedicadas de incremento e decremento em 8 bits, alinhando `B` ao mesmo padrão já disponível para `A` e evitando depender de sequências improvisadas para operações implícitas simples. Isso torna mais uniforme a organização interna da Unidade de Controle para registradores de propósito geral.
 
+* A implementação de `PPA`, `PPB` e `PPF` reutilizou o fluxo de desempilhamento já existente para `PPX`, mas exigiu uma extensão importante na `UnidadeDeControle.gd`: a criação do caminho inverso de `transferir_flags_para_mbr()`. Antes dessa alteração, o simulador já sabia empacotar as flags em um único byte ao executar `PHF`: a microoperação `transferir_flags_para_mbr()` organizava `O`, `C`, `N` e `Z` em posições fixas do byte e escrevia esse valor no `MBR`, para então armazená-lo na pilha. No entanto, não existia a operação complementar para ler esse byte de volta e redistribuí-lo aos registradores de flag.
+
+* Com a nova microoperação `transferir_mbr_para_flags()`, a Unidade de Controle passou a interpretar o conteúdo atual do `MBR` bit a bit e atualizar explicitamente `flag.o`, `flag.c`, `flag.n` e `flag.z`. Em outras palavras, o mesmo formato usado para serializar as flags em `PHF` passou a ser reutilizado na operação inversa durante `PPF`. Isso garante simetria entre empilhar e desempilhar o registrador de flags e evita que a restauração dependa de efeitos indiretos de outras instruções.
+
+* Na prática, `PPA` e `PPB` apenas seguem o mesmo padrão de `PPX`: incrementam `PP`, apontam `MAR` para o topo da pilha, leem a memória para o `MBR` e transferem o valor ao registrador de destino. Já `PPF` faz esse mesmo percurso inicial, mas termina chamando `transferir_mbr_para_flags()`. Essa foi a verdadeira mudança estrutural do bloco, pois tornou a Unidade de Controle capaz de realizar a restauração explícita do estado lógico da CPU a partir da pilha.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.

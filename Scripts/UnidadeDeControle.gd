@@ -165,6 +165,13 @@ func transferir_flags_para_mbr() -> void:
 	var resultado: Valor = Valor.new(flag_como_int)
 	CPU.atualizar_registrador_mbr(resultado)
 
+func transferir_mbr_para_flags() -> void:
+	var valor: int = CPU.registrador_mbr.como_int()
+	CPU.atualizar_flag_o(Valor.new((valor >> 5) & 0x1))
+	CPU.atualizar_flag_c(Valor.new((valor >> 4) & 0x1))
+	CPU.atualizar_flag_n(Valor.new((valor >> 3) & 0x1))
+	CPU.atualizar_flag_z(Valor.new((valor >> 2) & 0x1))
+
 func transferir_pp_para_alu_a() -> void:
 	var resultado: Valor = Valor.novo_de_valor(CPU.registrador_pp)
 	CPU.atualizar_alu_entrada_a(resultado)

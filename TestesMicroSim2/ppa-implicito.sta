@@ -1,0 +1,28 @@
+versao="1.0"
+
+; Testa o PPA restaurando A a partir da pilha.
+
+[inicio]
+registrador.pc="0"
+registrador.pp="0FFF"
+registrador.a="12"
+registrador.b="34"
+instrucoes=[
+	"PHA",
+	"TBA",
+	"PPA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="12"
+registrador.b="34"
+registrador.pp="0FFF"
+memoria = {
+    "000": "03",
+    "001": "42",
+    "002": "04",
+    "003": "58",
+    "004": "12",
+    "005": "00",
+}

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_p6bb7"]
+
+[resource]
+script = ExtResource("1_p6bb7")
+nome = "Pop B"
+"mnemônico" = "PPB"
+"descrição" = "Retira o conteúdo do endereço de pilha PP e armazena no registrador B."
+tamanho_do_dado = 0
+microoperacoes = ["incrementar_registrador_pp", "transferir_pp_para_mar", "transferir_mar_ao_endereco_de_memoria", "transferir_valor_da_memoria_ao_mbr", "transferir_mbr_para_b"]
+direto = ""
+imediato = ""
+indexado = ""
+indireto = ""
+pos_indexado = ""
+pre_indexado = ""
+implicito = "44"
