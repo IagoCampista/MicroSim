@@ -1,0 +1,69 @@
+versao="1.0"
+
+; Garante que PHF e PPF preservem o byte de flags de forma utilizavel
+; por branches imediatamente posteriores.
+;
+; Fluxo esperado:
+; 1. PHF empilha as flags iniciais, com C=1 e O=1.
+; 2. CLD e CRL limpam overflow e carry.
+; 3. BRD nao deve desviar, entao TBA executa.
+; 4. BRR tambem nao deve desviar, entao ORA #01 executa.
+; 5. PPF restaura as flags originais a partir da pilha.
+; 6. Agora BRD deve desviar e pular TAB.
+; 7. Em seguida BRR deve desviar e pular TBA.
+; 8. CAL EXIT encerra o teste.
+
+[inicio]
+registrador.pc="0"
+registrador.pp="0FFF"
+registrador.a="12"
+registrador.b="34"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="1"
+; 0000: salva o pacote inicial de flags
+; 0001-0002: limpa O e C
+; 0003-0005: branch por overflow, que nao deve disparar
+; 0006: executa porque BRD falhou
+; 0007-0009: branch por carry, que tambem nao deve disparar
+; 000A-000B: executa porque BRR falhou
+; 000C: restaura flags
+; 000D-000F: branch por overflow, agora deve disparar
+; 0010: nao deve executar
+; 0011-0013: branch por carry, agora deve disparar
+; 0014: nao deve executar
+; 0015: encerramento
+instrucoes=[
+	"PHF",
+	"CLD",
+	"CRL",
+	"BRD 0011",
+	"TBA",
+	"BRR 000A",
+	"ORA #01",
+	"PPF",
+	"BRD 0011",
+	"TAB",
+	"BRR 0015",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - A terminar em 35, provando que TBA e ORA executaram antes do PPF;
+; - B permanecer em 34, provando que o TAB apos o PPF foi pulado;
+; - as flags finais voltarem ao pacote restaurado por PPF;
+; - PP retornar ao topo original da pilha.
+registrador.a="35"
+registrador.b="34"
+registrador.pc="18"
+registrador.pp="0FFF"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="1"
+memoria = {
+	"FFF": "34",
+}

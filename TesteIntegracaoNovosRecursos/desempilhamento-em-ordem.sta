@@ -1,0 +1,64 @@
+versao="1.0"
+
+; Valida o desempilhamento em ordem LIFO para A, B e flags.
+; O programa empilha A, depois B, depois flags. Em seguida altera
+; registradores e flags de proposito e desfaz tudo com PPF, PPB e PPA.
+;
+; Fluxo esperado:
+; 1. PHA guarda A=12 no topo da pilha.
+; 2. PHB guarda B=34 logo abaixo.
+; 3. PHF serializa e empilha as flags iniciais.
+; 4. TBA altera A para 34.
+; 5. ORB #01 altera B para 35.
+; 6. CLD, CRL e CPA #40 mudam o estado das flags.
+; 7. PPF restaura as flags originais.
+; 8. PPB restaura B antes de PPA restaurar A.
+; 9. CAL EXIT encerra o teste.
+
+[inicio]
+registrador.pc="0"
+registrador.pp="0FFF"
+registrador.a="12"
+registrador.b="34"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="1"
+; 0000-0002: empilhamento de A, B e flags
+; 0003-0007: alteracoes destrutivas em registradores e flags
+; 0008-000A: restauracao em ordem inversa
+; 000B: encerramento
+instrucoes=[
+	"PHA",
+	"PHB",
+	"PHF",
+	"TBA",
+	"ORB #01",
+	"CLD",
+	"CRL",
+	"CPA #40",
+	"PPF",
+	"PPB",
+	"PPA",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - A voltar a 12 e B voltar a 34;
+; - as flags voltarem ao pacote inicial serializado por PHF;
+; - PP retornar a 0FFF apos os tres desempilhamentos;
+; - a pilha registrar, em ordem de gravacao, A, B e flags.
+registrador.a="12"
+registrador.b="34"
+registrador.pc="10"
+registrador.pp="0FFF"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="1"
+memoria = {
+	"FFD": "34",
+	"FFE": "34",
+	"FFF": "12",
+}

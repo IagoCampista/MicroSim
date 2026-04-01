@@ -1,0 +1,58 @@
+versao="1.0"
+
+; Integra operacoes de 16 bits entre PP, IX e memoria.
+; O objetivo e provar que PP pode ser ajustado, copiado para IX,
+; persistido em memoria e comparado sem perder a ordem correta dos bytes.
+;
+; Fluxo esperado:
+; 1. INP incrementa PP de 1234 para 1235.
+; 2. TPX copia o novo PP para IX.
+; 3. STP grava o valor atual de PP em 0020 e 0021.
+; 4. DEP retorna PP para 1234.
+; 5. CPX #1235 compara IX com o valor que foi capturado antes do DEP.
+; 6. CAL EXIT encerra o teste.
+
+[inicio]
+registrador.pc="0"
+registrador.pp="1234"
+registrador.ix="0000"
+flag.z="0"
+flag.n="0"
+flag.c="0"
+flag.o="0"
+memoria.substituicoes = {
+	"020": "00",
+	"021": "00"
+}
+; 0000: ajusta PP
+; 0001: copia PP para IX
+; 0002-0004: persiste PP em memoria
+; 0005: desfaz o ajuste de PP sem mexer em IX
+; 0006-0008: compara IX com o valor esperado
+; 0009: encerramento
+instrucoes=[
+	"INP",
+	"TPX",
+	"STP 0020",
+	"DEP",
+	"CPX #1235",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - PP voltar para 1234;
+; - IX permanecer em 1235, mostrando que TPX capturou o valor correto;
+; - a comparacao marcar igualdade em 16 bits;
+; - a memoria em 0020/0021 guardar 12 35 nessa ordem.
+registrador.ix="1235"
+registrador.pp="1234"
+registrador.pc="C"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+memoria = {
+	"020": "12",
+	"021": "35",
+}
