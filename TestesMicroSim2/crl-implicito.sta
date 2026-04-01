@@ -1,0 +1,20 @@
+versao="1.0"
+
+; Testa o CRL limpando a flag de carry.
+
+[inicio]
+registrador.pc="0"
+flag.c="1"
+instrucoes=[
+	"CRL",
+	"CAL EXIT"
+]
+
+[fim]
+flag.c="0"
+memoria = {
+    "000": "0E",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

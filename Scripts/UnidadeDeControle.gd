@@ -346,6 +346,12 @@ func atribuir_um_a_flag_c():
 func atribuir_um_a_flag_o():
 	CPU.atualizar_flag_o(Valor.new(1))
 
+func atribuir_zero_a_flag_c():
+	CPU.atualizar_flag_c(Valor.new(0))
+
+func atribuir_zero_a_flag_o():
+	CPU.atualizar_flag_o(Valor.new(0))
+
 func _operacao_de_uniao_mbr_ao_aux() -> Valor:
 	var byte_array: PackedByteArray = [
 		CPU.registrador_mbr.como_int(),

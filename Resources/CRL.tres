@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_htu8p"]
+
+[resource]
+script = ExtResource("1_htu8p")
+nome = "Clear carry"
+"mnemônico" = "CRL"
+"descrição" = "Atribui o valor 0 ao flag de carry."
+tamanho_do_dado = 0
+microoperacoes = ["atribuir_zero_a_flag_c"]
+direto = ""
+imediato = ""
+indexado = ""
+indireto = ""
+pos_indexado = ""
+pre_indexado = ""
+implicito = "0E"

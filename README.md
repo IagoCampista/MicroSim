@@ -152,6 +152,8 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * As branches `BRR` e `BRD` seguiram o mesmo modelo e passaram a depender de verificações booleanas específicas para as flags `C` e `O` na `UnidadeDeControle.gd`. Dessa forma, a decisão de desvio por carry ou overflow permanece encapsulada na Unidade de Controle, enquanto o restante do fluxo do simulador continua reutilizando o cálculo prévio do endereço efetivo em `MAR` e a microoperação padrão de atualização do `PC`.
 
+* As instruções `CLD` e `CRL` exigiram a complementação das microoperações de manipulação direta de flags na `UnidadeDeControle.gd`. Se antes o simulador já possuía rotinas para atribuir `1` às flags `O` e `C`, com a adição dessas instruções passaram a existir também as versões que atribuem `0` explicitamente. Isso mantém simetria com `SED` e `SER` e centraliza na Unidade de Controle toda a lógica de escrita imediata sobre flags isoladas.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.
