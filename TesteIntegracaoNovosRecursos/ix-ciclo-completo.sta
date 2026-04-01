@@ -1,0 +1,59 @@
+versao="1.0"
+
+; Exercita o ciclo de IX: carga imediata, incremento, comparacao,
+; desvio condicional, decremento e persistencia em memoria.
+;
+; Fluxo esperado:
+; 1. LDX carrega 1234 em IX.
+; 2. INX leva IX para 1235.
+; 3. CPX #1235 deve marcar igualdade sem alterar IX.
+; 4. BGE deve tomar o desvio porque N = 0 apos a comparacao.
+; 5. O salto pula o CAL EXIT intermediario e cai no bloco util.
+; 6. DEX retorna IX para 1234.
+; 7. STX grava o valor final de IX em 0020 e 0021.
+; 8. O CAL EXIT final encerra o teste.
+
+[inicio]
+registrador.pc="0"
+registrador.ix="0000"
+flag.z="0"
+flag.n="0"
+flag.c="0"
+flag.o="0"
+memoria.substituicoes = {
+	"020": "00",
+	"021": "00"
+}
+; 0000-0002: carga imediata de IX
+; 0003: incremento
+; 0004-0006: comparacao em 16 bits
+; 0007-0009: branch para pular a saida antecipada
+; 000A: saida que nao deve executar
+; 000D-0010: bloco que ajusta e persiste IX
+; 0011: encerramento real
+instrucoes=[
+	"LDX #1234",
+	"INX",
+	"CPX #1235",
+	"BGE 000D",
+	"CAL EXIT",
+	"DEX",
+	"STX 0020",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - IX terminar em 1234, provando que foi alterado e depois restaurado;
+; - as flags permanecerem com o resultado da comparacao;
+; - a memoria em 0020/0021 receber os dois bytes de IX na ordem correta.
+registrador.ix="1234"
+registrador.pc="14"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+memoria = {
+	"020": "12",
+	"021": "34",
+}

@@ -1,0 +1,67 @@
+versao="1.0"
+
+; Integra CAL/RET com preservacao de contexto.
+; A sub-rotina salva A, B e flags na pilha, altera tudo no meio
+; e depois restaura o estado antes de retornar ao chamador.
+;
+; Fluxo esperado:
+; 1. O programa principal chama a sub-rotina em 0006.
+; 2. O CAL salva na pilha o endereco de retorno, que deve apontar para
+;    a instrucao seguinte no chamador, ou seja, o CAL EXIT.
+; 3. Dentro da sub-rotina, A, B e o byte de flags sao empilhados.
+; 4. O trecho intermediario altera registradores e flags de proposito:
+;    TBA muda A, CLD e CRL limpam overflow/carry, e CPA recalcula Z/N/C/O.
+; 5. PPF, PPB e PPA desfazem essas alteracoes na ordem inversa.
+; 6. RET usa o endereco salvo pelo CAL para voltar ao chamador.
+; 7. De volta ao programa principal, CAL EXIT encerra a execucao.
+
+[inicio]
+registrador.pc="0"
+registrador.pp="0FFF"
+registrador.a="12"
+registrador.b="34"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="1"
+; 0000: chama a sub-rotina
+; 0003: ponto de retorno apos o RET
+; 0006 em diante: corpo da sub-rotina
+instrucoes=[
+	"CAL 0006",
+	"CAL EXIT",
+	"PHA",
+	"PHB",
+	"PHF",
+	"TBA",
+	"CLD",
+	"CRL",
+	"CPA #40",
+	"PPF",
+	"PPB",
+	"PPA",
+	"RET"
+]
+
+[fim]
+; O teste passa se:
+; - A e B voltarem aos valores originais;
+; - as flags forem restauradas exatamente como estavam;
+; - o ponteiro de pilha voltar para 0FFF;
+; - os bytes deixados na pilha mostrem, de baixo para cima,
+;   o endereco de retorno, A, B e o byte de flags.
+registrador.a="12"
+registrador.b="34"
+registrador.pc="6"
+registrador.pp="0FFF"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="1"
+memoria = {
+	"FFB": "34",
+	"FFC": "34",
+	"FFD": "12",
+	"FFE": "03",
+	"FFF": "00",
+}

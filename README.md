@@ -118,6 +118,47 @@ A flag de vai um ocorre quando uma operação feita na `ULA` irá "emprestar" um
 Um exemplo é quando é incrementado um para o valor de um byte `0xFF`. O resultado seria `0x100` (`0b100000000`). Como esse valor é maior do que um byte consegue guardar, então esse bit a mais vai ser descartado (foi emprestado mas sobrou).
 O mesmo acontece quando temos `0x00` e vamos substrair um. Ele vai precisar de um bit emprestado, já que ele não possui nenhum em si. Logo, a flag é ativada.
 
+## TesteIntegracaoNovosRecursos
+
+Esta pasta foi reservada para a terceira leva de testes do projeto.
+
+O foco aqui nao e adicionar testes unitarios de instrucao isolada, e sim cenarios integrados que combinem instrucoes recentes no mesmo programa para validar:
+
+- encadeamento entre flags e desvios;
+- restauracao de estado com pilha;
+- integridade de registradores de 16 bits;
+- persistencia em memoria apos operacoes combinadas;
+- ausencia de regressao entre grupos de instrucoes que hoje so aparecem em arquivos separados.
+
+A lista abaixo continua servindo como matriz de planejamento para a continuidade da leva.
+
+### Matriz sugerida
+
+| Arquivo sugerido | Instrucoes combinadas | Objetivo principal |
+| --- | --- | --- |
+| `cpa-bre-bne-bra-tab-tba.sta` | `CPA`, `BRE`, `BNE`, `BRA`, `TAB`, `TBA` | Validar fluxo com multiplos desvios mutuamente exclusivos e garantir que apenas o bloco correto altera `A` e `B`. |
+| `cpb-branches-assinadas.sta` | `CPB`, `BRL`, `BRG`, `BLE`, `BGE` | Cobrir resultado negativo, zero e positivo em `B`, validando interpretacao conjunta de `N` e `Z`. |
+| `ix-ciclo-completo.sta` | `LDX`, `INX`, `DEX`, `CPX`, `BGE` ou `BLE`, `STX` | Exercitar ciclo completo de `IX`: carga, alteracao, comparacao, desvio e escrita em memoria. |
+| `carry-overflow-com-limpeza.sta` | `ARA` ou `SBA`, `BRR`, `BRD`, `CRL`, `CLD` | Garantir que `carry` e `overflow` disparem branches corretos e que a limpeza manual das flags afete o fluxo seguinte. |
+| `subrotina-salva-restaura-contexto.sta` | `PHA`, `PHB`, `PHF`, `PPA`, `PPB`, `PPF`, `CAL`, `RET` | Simular prologo e epilogo de sub-rotina, preservando registradores e flags ao redor de codigo destrutivo. |
+| `desempilhamento-em-ordem.sta` | `PHA`, `PHB`, `PHF`, `PPF`, `PPB`, `PPA` | Verificar LIFO exato da pilha e garantir que cada `PP*` consuma o byte esperado. |
+| `pp-ix-memoria-16bits.sta` | `INP`, `DEP`, `TPX`, `STP`, `CPX` | Validar coerencia entre `PP`, `IX` e memoria em operacoes de 16 bits, incluindo ordem de bytes. |
+| `shift-8bits-alimenta-branches.sta` | `SLA`, `SRA`, `SAA`, `BRR`, `BRE`, `BRL` | Confirmar que shifts atualizam `C`, `Z` e `N` corretamente e que essas flags controlam os desvios seguintes. |
+| `shift-16bits-ba-comparacao.sta` | `SLD`, `SRD`, `SAD`, `CPA` ou `CPB`, `BNE` ou `BRE` | Cobrir deslocamentos em `B:A` e validar bytes alto e baixo apos sequencias encadeadas. |
+| `underflow-com-restauracao-de-flags.sta` | `SBA`, `BRL` ou `BNE`, `PHF`, `PPF` | Garantir que um resultado negativo altere o fluxo e depois que as flags possam ser restauradas sem efeitos residuais. |
+| `or-comparacao-desvio.sta` | `ORA` ou `ORB`, `CPA` ou `CPB`, `BRE` ou `BNE` | Confirmar que o valor logico produzido alimenta uma comparacao posterior sem regressao nas flags relevantes. |
+| `bra-indexado-dinamico.sta` | `LDX`, `INX` ou `DEX`, `BRA` indexado | Validar endereco efetivo de salto dependente de `IX` alterado durante a propria execucao. |
+| `pp-ix-ciclo-memoria-completo.sta` | `TPX`, `STP`, `LDX`, `STX`, `CPX` | Fechar o ciclo entre registradores de 16 bits e memoria, incluindo leitura, escrita e comparacao. |
+| `transferencia-subtracao-shift.sta` | `TAB`, `TBA`, `SBA`, `SLA` ou `SRA` | Pegar regressao de registrador de origem/destino antes de uma operacao aritmetica seguida de shift. |
+| `flags-serializadas-e-branches.sta` | `CLD`, `CRL`, `PHF`, `PPF`, `BRD`, `BRR` | Travar a serializacao e desserializacao das flags quando o fluxo depende delas logo em seguida. |
+
+## Observacoes para implementacao
+
+- Preferir programas curtos, mas com pelo menos um caminho que precise ser pulado para provar que o branch realmente funcionou.
+- Sempre validar registradores, flags e memoria quando o cenario mexer com mais de uma dessas areas.
+- Em testes com pilha, fixar `PP` inicial explicitamente para evitar ambiguidade.
+- Em testes com `IX` e `PP`, validar ordem dos bytes na memoria para pegar regressao silenciosa.
+- Em testes que combinem `PHF` e `PPF`, provocar alteracao intermediaria real das flags antes da restauracao.
 
 ## Notas
 
