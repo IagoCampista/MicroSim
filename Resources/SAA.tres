@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_krh2t"]
+
+[resource]
+script = ExtResource("1_krh2t")
+nome = "Shift arithmetic A"
+"mnemônico" = "SAA"
+"descrição" = "Desloca o registrador A uma posição à direita preservando o bit de sinal."
+tamanho_do_dado = 0
+microoperacoes = ["transferir_a_para_alu_a", "realizar_deslocamento_aritmetico_direita_alu_a_8_bits", "transferir_alu_saida_para_a"]
+direto = ""
+imediato = ""
+indexado = ""
+indireto = ""
+pos_indexado = ""
+pre_indexado = ""
+implicito = "0C"

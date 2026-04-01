@@ -1,0 +1,25 @@
+versao="1.0"
+
+; Testa o SAA deslocando A aritmeticamente à direita.
+
+[inicio]
+registrador.pc="0"
+registrador.a="CD"
+flag.o="0"
+instrucoes=[
+	"SAA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="E6"
+flag.z="0"
+flag.n="1"
+flag.c="1"
+flag.o="0"
+memoria = {
+    "000": "0C",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

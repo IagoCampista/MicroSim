@@ -297,6 +297,31 @@ func realizar_ou_logico_alu_a_alu_b():
 	var valor = Valor.new(resultado)
 	CPU.atualizar_alu_saida(valor)
 
+func realizar_deslocamento_esquerda_alu_a_8_bits() -> void:
+	var entrada: int = CPU.alu_entrada_a.como_int()
+	CPU.atualizar_flag_c(Valor.new((entrada >> 7) & 0x1))
+	var resultado: Valor = Valor.new((entrada << 1) & 0xFF)
+	CPU.verificar_flag_z(resultado)
+	CPU.verificar_flag_n(resultado, 1)
+	CPU.atualizar_alu_saida(resultado)
+
+func realizar_deslocamento_direita_alu_a_8_bits() -> void:
+	var entrada: int = CPU.alu_entrada_a.como_int()
+	CPU.atualizar_flag_c(Valor.new(entrada & 0x1))
+	var resultado: Valor = Valor.new((entrada >> 1) & 0xFF)
+	CPU.verificar_flag_z(resultado)
+	CPU.verificar_flag_n(resultado, 1)
+	CPU.atualizar_alu_saida(resultado)
+
+func realizar_deslocamento_aritmetico_direita_alu_a_8_bits() -> void:
+	var entrada: int = CPU.alu_entrada_a.como_int()
+	CPU.atualizar_flag_c(Valor.new(entrada & 0x1))
+	var resultado: int = ((entrada & 0x80) | (entrada >> 1)) & 0xFF
+	var valor: Valor = Valor.new(resultado)
+	CPU.verificar_flag_z(valor)
+	CPU.verificar_flag_n(valor, 1)
+	CPU.atualizar_alu_saida(valor)
+
 func comparar_alu_a_com_alu_b_8_bits() -> void:
 	var minuendo: int = CPU.alu_entrada_a.como_int()
 	var subtraendo: Valor = self._realizar_complemento_a_dois(CPU.alu_entrada_b)

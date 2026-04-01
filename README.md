@@ -164,6 +164,8 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * Na prática, `PPA` e `PPB` apenas seguem o mesmo padrão de `PPX`: incrementam `PP`, apontam `MAR` para o topo da pilha, leem a memória para o `MBR` e transferem o valor ao registrador de destino. Já `PPF` faz esse mesmo percurso inicial, mas termina chamando `transferir_mbr_para_flags()`. Essa foi a verdadeira mudança estrutural do bloco, pois tornou a Unidade de Controle capaz de realizar a restauração explícita do estado lógico da CPU a partir da pilha.
 
+* A implementação das instruções de deslocamento `SLA`, `SRA` e `SAA` exigiu a criação de microoperações específicas de shift na `UnidadeDeControle.gd` para operandos de 8 bits. Essas rotinas passaram a calcular explicitamente o novo valor deslocado, atualizar `Z` e `N` com base no resultado e registrar em `C` o bit descartado pelo deslocamento. Com isso, o simulador passou a tratar deslocamentos simples como operações próprias da ULA, em vez de depender de composições indiretas com soma, multiplicação ou divisão.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.
