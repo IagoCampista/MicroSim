@@ -166,6 +166,8 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * A implementação das instruções de deslocamento `SLA`, `SRA` e `SAA` exigiu a criação de microoperações específicas de shift na `UnidadeDeControle.gd` para operandos de 8 bits. Essas rotinas passaram a calcular explicitamente o novo valor deslocado, atualizar `Z` e `N` com base no resultado e registrar em `C` o bit descartado pelo deslocamento. Com isso, o simulador passou a tratar deslocamentos simples como operações próprias da ULA, em vez de depender de composições indiretas com soma, multiplicação ou divisão.
 
+* No caso das instruções duplas (`SLD`, `SRD` e `SAD`), também foi necessário tratar de forma explícita a concatenação e posterior separação do par `B:A`. Embora o simulador já possuísse rotinas genéricas de união e divisão de bytes, esse bloco exigiu versões específicas para preservar a ordem correta de `B` como byte alto e `A` como byte baixo. Por isso, a `UnidadeDeControle.gd` recebeu microoperações auxiliares dedicadas à montagem e desmontagem de `B:A` em 16 bits, garantindo que o deslocamento duplo produzisse resultados coerentes tanto nos registradores quanto nas flags.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.

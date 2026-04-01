@@ -248,6 +248,11 @@ func unir_mbr_ao_aux_e_transferir_para_alu_a() -> void:
 	var resultado: Valor = self._operacao_de_uniao_mbr_ao_aux()
 	CPU.atualizar_alu_entrada_a(resultado)
 
+func unir_mbr_ao_aux_e_transferir_para_alu_a_reverso() -> void:
+	var resultado: Valor = Valor.novo_de_valor(CPU.registrador_mbr)
+	resultado.somar_int(CPU.registrador_aux.como_int() << 8)
+	CPU.atualizar_alu_entrada_a(resultado)
+
 func unir_mbr_ao_aux_e_transferir_para_alu_b() -> void:
 	var resultado: Valor = Valor.novo_de_valor(CPU.registrador_mbr)
 	resultado.somar_int(CPU.registrador_aux.como_int() << 8)
@@ -272,6 +277,11 @@ func dividir_alu_saida_e_transferir_para_mbr_e_aux() -> void:
 	var registrador: PackedByteArray = CPU.alu_saida.como_byte_array(4)
 	CPU.atualizar_registrador_mbr(Valor.new(registrador[0]))
 	CPU.atualizar_registrador_aux(Valor.new(registrador[1]))
+
+func dividir_alu_saida_e_transferir_para_aux_e_mbr() -> void:
+	var registrador: PackedByteArray = CPU.alu_saida.como_byte_array(4)
+	CPU.atualizar_registrador_aux(Valor.new(registrador[0]))
+	CPU.atualizar_registrador_mbr(Valor.new(registrador[1]))
 
 func operação_de_complemento_a_dois_na_alu_8_bits() -> void:
 	var valor		: Valor = self._realizar_complemento_a_dois(CPU.alu_entrada_a)
@@ -305,12 +315,28 @@ func realizar_deslocamento_esquerda_alu_a_8_bits() -> void:
 	CPU.verificar_flag_n(resultado, 1)
 	CPU.atualizar_alu_saida(resultado)
 
+func realizar_deslocamento_esquerda_alu_a_16_bits() -> void:
+	var entrada: int = CPU.alu_entrada_a.como_int()
+	CPU.atualizar_flag_c(Valor.new((entrada >> 15) & 0x1))
+	var resultado: Valor = Valor.new((entrada << 1) & 0xFFFF)
+	CPU.verificar_flag_z(resultado)
+	CPU.verificar_flag_n(resultado, 2)
+	CPU.atualizar_alu_saida(resultado)
+
 func realizar_deslocamento_direita_alu_a_8_bits() -> void:
 	var entrada: int = CPU.alu_entrada_a.como_int()
 	CPU.atualizar_flag_c(Valor.new(entrada & 0x1))
 	var resultado: Valor = Valor.new((entrada >> 1) & 0xFF)
 	CPU.verificar_flag_z(resultado)
 	CPU.verificar_flag_n(resultado, 1)
+	CPU.atualizar_alu_saida(resultado)
+
+func realizar_deslocamento_direita_alu_a_16_bits() -> void:
+	var entrada: int = CPU.alu_entrada_a.como_int()
+	CPU.atualizar_flag_c(Valor.new(entrada & 0x1))
+	var resultado: Valor = Valor.new((entrada >> 1) & 0xFFFF)
+	CPU.verificar_flag_z(resultado)
+	CPU.verificar_flag_n(resultado, 2)
 	CPU.atualizar_alu_saida(resultado)
 
 func realizar_deslocamento_aritmetico_direita_alu_a_8_bits() -> void:
@@ -320,6 +346,15 @@ func realizar_deslocamento_aritmetico_direita_alu_a_8_bits() -> void:
 	var valor: Valor = Valor.new(resultado)
 	CPU.verificar_flag_z(valor)
 	CPU.verificar_flag_n(valor, 1)
+	CPU.atualizar_alu_saida(valor)
+
+func realizar_deslocamento_aritmetico_direita_alu_a_16_bits() -> void:
+	var entrada: int = CPU.alu_entrada_a.como_int()
+	CPU.atualizar_flag_c(Valor.new(entrada & 0x1))
+	var resultado: int = ((entrada & 0x8000) | (entrada >> 1)) & 0xFFFF
+	var valor: Valor = Valor.new(resultado)
+	CPU.verificar_flag_z(valor)
+	CPU.verificar_flag_n(valor, 2)
 	CPU.atualizar_alu_saida(valor)
 
 func comparar_alu_a_com_alu_b_8_bits() -> void:
