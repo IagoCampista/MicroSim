@@ -1,0 +1,35 @@
+versao="1.0"
+
+; Testa o BRD quando O = 1.
+; ARA provoca overflow em 8 bits e o desvio deve pular TBA.
+
+[inicio]
+registrador.pc="0"
+registrador.a="7F"
+registrador.b="22"
+flag.c="1"
+instrucoes=[
+	"ARA #00",
+	"BRD 0006",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="80"
+registrador.b="22"
+flag.z="0"
+flag.n="1"
+flag.c="0"
+flag.o="1"
+memoria = {
+    "000": "26",
+    "001": "00",
+    "002": "A7",
+    "003": "00",
+    "004": "06",
+    "005": "42",
+    "006": "58",
+    "007": "12",
+    "008": "00",
+}

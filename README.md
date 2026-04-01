@@ -150,6 +150,8 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * As branches `BGE` e `BLE` reutilizam a mesma abordagem, mas exigiram novas verificações booleanas na `UnidadeDeControle.gd`. Para `BGE`, foi adicionada uma condição explícita para `N = 0`, enquanto `BLE` passou a depender de uma verificação composta em que o desvio ocorre quando `N = 1` ou `Z = 1`. Com isso, o simulador continua centralizando a lógica de decisão condicional na Unidade de Controle e reaproveita a microoperação `transferir_mar_para_pc` sem introduzir um fluxo especial para cada branch.
 
+* As branches `BRR` e `BRD` seguiram o mesmo modelo e passaram a depender de verificações booleanas específicas para as flags `C` e `O` na `UnidadeDeControle.gd`. Dessa forma, a decisão de desvio por carry ou overflow permanece encapsulada na Unidade de Controle, enquanto o restante do fluxo do simulador continua reutilizando o cálculo prévio do endereço efetivo em `MAR` e a microoperação padrão de atualização do `PC`.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.
