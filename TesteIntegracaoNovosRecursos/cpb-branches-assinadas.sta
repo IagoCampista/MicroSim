@@ -1,0 +1,96 @@
+versao="1.0"
+
+; Encadeia comparacoes em B com os branches assinados BRL, BLE, BGE e BRG.
+; O programa atravessa os tres casos classicos: negativo, zero e positivo.
+;
+; Fluxo esperado:
+; 1. CPB #07 com B=05 produz resultado negativo, entao BRL deve disparar.
+; 2. Dois INB levam B ate 07.
+; 3. CPB #07 agora produz igualdade, entao BLE deve disparar.
+; 4. Mais um INB leva B a 08.
+; 5. CPB #07 produz resultado positivo, entao BGE deve disparar.
+; 6. O mesmo resultado positivo e diferente de zero tambem faz BRG disparar.
+; 7. Todos os TBA do caminho rejeitado devem ser pulados.
+
+[inicio]
+registrador.pc="0"
+registrador.a="11"
+registrador.b="05"
+flag.z="0"
+flag.n="0"
+flag.c="0"
+flag.o="0"
+; 0000-0001: comparacao negativa
+; 0002-0004: BRL deve desviar
+; 0005: nao deve executar
+; 0006-0007: ajustam B ate o caso de igualdade
+; 0008-0009: comparacao de igualdade
+; 000A-000C: BLE deve desviar
+; 000D: nao deve executar
+; 000E: ajusta B para o caso positivo
+; 000F-0010: comparacao positiva
+; 0011-0013: BGE deve desviar
+; 0014: nao deve executar
+; 0015-0017: BRG deve desviar
+; 0018: nao deve executar
+; 0019: encerramento
+instrucoes=[
+	"CPB #07",
+	"BRL 0006",
+	"TBA",
+	"INB",
+	"INB",
+	"CPB #07",
+	"BLE 000E",
+	"TBA",
+	"INB",
+	"CPB #07",
+	"BGE 0015",
+	"TBA",
+	"BRG 0019",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - A permanecer em 11 porque nenhum TBA do caminho morto executou;
+; - B terminar em 08;
+; - as flags finais representarem a ultima comparacao positiva.
+registrador.a="11"
+registrador.b="08"
+registrador.pc="1C"
+flag.z="0"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+memoria = {
+	"000": "67",
+	"001": "07",
+	"002": "A2",
+	"003": "00",
+	"004": "06",
+	"005": "42",
+	"006": "46",
+	"007": "46",
+	"008": "67",
+	"009": "07",
+	"00A": "A3",
+	"00B": "00",
+	"00C": "0E",
+	"00D": "42",
+	"00E": "46",
+	"00F": "67",
+	"010": "07",
+	"011": "A5",
+	"012": "00",
+	"013": "15",
+	"014": "42",
+	"015": "A4",
+	"016": "00",
+	"017": "19",
+	"018": "42",
+	"019": "58",
+	"01A": "12",
+	"01B": "00",
+}

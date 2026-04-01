@@ -1,0 +1,73 @@
+versao="1.0"
+
+; Combina comparacao em A com branches de igualdade e diferenca,
+; seguido de um branch incondicional para controlar qual transferencia
+; entre A e B realmente executa.
+;
+; Fluxo esperado:
+; 1. CPA #05 produz igualdade, entao Z=1.
+; 2. BRE deve desviar para o bloco correto e pular o TBA inicial.
+; 3. Como o BRE foi tomado, o BNE intermediario nem chega a ser executado.
+; 4. TAB copia A para B no bloco valido.
+; 5. BRA desvia para o encerramento e pula o TBA final.
+; 6. CAL EXIT encerra o teste.
+
+[inicio]
+registrador.pc="0"
+registrador.a="05"
+registrador.b="22"
+flag.z="0"
+flag.n="0"
+flag.c="0"
+flag.o="0"
+; 0000-0001: comparacao que gera igualdade
+; 0002-0004: branch por igualdade, que deve disparar
+; 0005: nao deve executar
+; 0006-0008: branch por diferenca, que fica fora do caminho tomado
+; 0009: bloco correto, copia A para B
+; 000A-000C: salto incondicional para o encerramento
+; 000D: nao deve executar
+; 000E: encerramento
+instrucoes=[
+	"CPA #05",
+	"BRE 0009",
+	"TBA",
+	"BNE 000D",
+	"TAB",
+	"BRA 000E",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - A permanecer em 05;
+; - B terminar em 05 por causa do TAB;
+; - os dois TBA forem pulados;
+; - as flags finais ainda representarem o resultado da comparacao inicial.
+registrador.a="05"
+registrador.b="05"
+registrador.pc="11"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+memoria = {
+	"000": "27",
+	"001": "05",
+	"002": "A0",
+	"003": "00",
+	"004": "09",
+	"005": "42",
+	"006": "A1",
+	"007": "00",
+	"008": "0D",
+	"009": "41",
+	"00A": "59",
+	"00B": "00",
+	"00C": "0E",
+	"00D": "42",
+	"00E": "58",
+	"00F": "12",
+	"010": "00",
+}
