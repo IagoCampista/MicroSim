@@ -1,0 +1,20 @@
+versao="1.0"
+
+; Testa o INX incrementando IX em 16 bits.
+
+[inicio]
+registrador.pc="0"
+registrador.ix="000F"
+instrucoes=[
+	"INX",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.ix="0010"
+memoria = {
+    "000": "08",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

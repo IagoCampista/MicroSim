@@ -1,0 +1,20 @@
+versao="1.0"
+
+; Testa o DEX decrementando IX em 16 bits.
+
+[inicio]
+registrador.pc="0"
+registrador.ix="0010"
+instrucoes=[
+	"DEX",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.ix="000F"
+memoria = {
+    "000": "09",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

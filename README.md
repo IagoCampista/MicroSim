@@ -154,6 +154,8 @@ Após realizar alguns testes manuais e consultas, parece que o cálculo de divis
 
 * As instruções `CLD` e `CRL` exigiram a complementação das microoperações de manipulação direta de flags na `UnidadeDeControle.gd`. Se antes o simulador já possuía rotinas para atribuir `1` às flags `O` e `C`, com a adição dessas instruções passaram a existir também as versões que atribuem `0` explicitamente. Isso mantém simetria com `SED` e `SER` e centraliza na Unidade de Controle toda a lógica de escrita imediata sobre flags isoladas.
 
+* A implementação de `DEX` e `INX` consolidou também o tratamento explícito de incremento e decremento do registrador `IX` na `UnidadeDeControle.gd`. O simulador já possuía a microoperação de decremento, reaproveitada por `DBN` e `DEX`, e passou a contar também com uma microoperação própria de incremento em 16 bits para suportar `INX`. Com isso, as operações implícitas sobre `IX` seguem o mesmo padrão já adotado para `A`, `PP` e demais registradores manipulados diretamente pela Unidade de Controle.
+
 ## Referências
 
 * [Documentação dos comandos do Micro3](referência.md), uma das maiores referências e inspirações pro projeto. As instruções desse simulador são baseadas nas existentes do MICRO3.

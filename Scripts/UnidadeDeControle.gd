@@ -19,6 +19,12 @@ func incrementar_registrador_pp() -> void:
 	var valor: Valor = self._realizar_adicao(parcela_um, parcela_dois, 2, false)
 	CPU.atualizar_registrador_pp(valor)
 
+func incrementar_registrador_ix() -> void:
+	var parcela_um	: int = CPU.registrador_ix.como_int()
+	var parcela_dois: int = 1
+	var valor: Valor = self._realizar_adicao(parcela_um, parcela_dois, 2, false)
+	CPU.atualizar_registrador_ix(valor)
+
 func incrementar_registrador_a() -> void:
 	var parcela_um	: int = CPU.registrador_a.como_int()
 	var parcela_dois: int = 1

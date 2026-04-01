@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_v6jus"]
+
+[resource]
+script = ExtResource("1_v6jus")
+nome = "Decrement de IX"
+"mnemônico" = "DEX"
+"descrição" = "Subtrai uma unidade do conteúdo do registrador IX."
+tamanho_do_dado = 0
+microoperacoes = ["decrementar_registrador_ix"]
+direto = ""
+imediato = ""
+indexado = ""
+indireto = ""
+pos_indexado = ""
+pre_indexado = ""
+implicito = "09"
