@@ -1,0 +1,57 @@
+versao="1.0"
+
+; Combina transferencias entre A e B com subtracao e shifts em sequencia.
+; O objetivo e garantir que cada operacao consuma o registrador correto
+; depois de transferencias encadeadas.
+;
+; Fluxo esperado:
+; 1. TAB copia A=09 para B.
+; 2. TBA devolve B=09 para A, mantendo ambos sincronizados.
+; 3. SBA faz A - B = 09 - 09 = 00.
+; 4. BRE deve desviar por causa de Z=1 e pular o primeiro TBA.
+; 5. SRA sobre A=00 preserva zero e carry=0.
+; 6. BRE volta a desviar e pula o segundo TBA.
+; 7. TAB final copia A=00 para B.
+; 8. SLA sobre A=00 preserva zero.
+
+[inicio]
+registrador.pc="0"
+registrador.a="09"
+registrador.b="04"
+flag.z="0"
+flag.n="0"
+flag.c="0"
+flag.o="0"
+; 0000-0002: sincronizam A e B
+; 0003-0005: branch por zero apos SBA
+; 0006: nao deve executar
+; 0007-000A: shift e novo branch por zero
+; 000B: nao deve executar
+; 000C-000D: estabilizam B e A em zero
+; 000E: encerramento
+instrucoes=[
+	"TAB",
+	"TBA",
+	"SBA",
+	"BRE 0007",
+	"TBA",
+	"SRA",
+	"BRE 000C",
+	"TBA",
+	"TAB",
+	"SLA",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - A terminar em 00;
+; - B terminar em 00;
+; - os dois TBA pulados nao reintroduzirem lixo vindo de B;
+; - as flags finais reflitam o ultimo shift sobre zero.
+registrador.a="00"
+registrador.b="00"
+flag.z="1"
+flag.n="0"
+flag.c="0"
+flag.o="0"
