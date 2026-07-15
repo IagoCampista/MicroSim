@@ -1,0 +1,20 @@
+versao="1.0"
+
+; Testa o DEB decrementando B em 8 bits.
+
+[inicio]
+registrador.pc="0"
+registrador.b="10"
+instrucoes=[
+	"DEB",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.b="0F"
+memoria = {
+    "000": "47",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

@@ -1,0 +1,25 @@
+versao="1.0"
+
+; Testa o SLA deslocando A à esquerda.
+
+[inicio]
+registrador.pc="0"
+registrador.a="4D"
+flag.o="0"
+instrucoes=[
+	"SLA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="9A"
+flag.z="0"
+flag.n="1"
+flag.c="0"
+flag.o="0"
+memoria = {
+    "000": "0A",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

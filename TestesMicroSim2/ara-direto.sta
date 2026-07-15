@@ -1,0 +1,29 @@
+versao="1.0"
+
+[inicio]
+registrador.a="09"
+registrador.pc="0"
+flag.c="1"
+memoria.substituicoes = {
+	"010": "04"
+}
+instrucoes=[
+	"ARA 0010",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="0E"
+flag.z="0"
+flag.n="0"
+flag.c="0"
+flag.o="0"
+memoria = {
+	"000": "16",
+	"001": "00",
+	"002": "10",
+	"003": "58",
+	"004": "12",
+	"005": "00",
+	"010": "04"
+}

@@ -1,0 +1,31 @@
+versao="1.0"
+
+; Testa o BRA indexado.
+; O endereço efetivo do salto é 0003 + IX(0002) = 0005, pulando TBA e TAB.
+
+[inicio]
+registrador.pc="0"
+registrador.a="11"
+registrador.b="22"
+registrador.ix="0002"
+instrucoes=[
+	"BRA 0003, X",
+	"TBA",
+	"TAB",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="11"
+registrador.b="22"
+registrador.ix="0002"
+memoria = {
+    "000": "79",
+    "001": "00",
+    "002": "03",
+    "003": "42",
+    "004": "41",
+    "005": "58",
+    "006": "12",
+    "007": "00",
+}

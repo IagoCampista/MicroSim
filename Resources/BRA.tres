@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_y67s7"]
+
+[resource]
+script = ExtResource("1_y67s7")
+nome = "Branch"
+"mnemônico" = "BRA"
+"descrição" = "Ocorre um desvio para a instrução cujo endereço é indicado."
+microoperacoes = ["transferir_mar_para_pc"]
+direto = "59"
+imediato = ""
+indexado = "79"
+indireto = "D9"
+pos_indexado = "E9"
+pre_indexado = "F9"
+implicito = ""

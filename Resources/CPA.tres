@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_hj5jk"]
+
+[resource]
+script = ExtResource("1_hj5jk")
+nome = "Compare A"
+"mnemônico" = "CPA"
+"descrição" = "Subtrai um operando do valor do conteúdo de A, porém não armazena o resultado."
+tamanho_do_dado = 1
+microoperacoes = ["transferir_mar_ao_endereco_de_memoria", "transferir_valor_da_memoria_ao_mbr", "transferir_a_para_alu_a", "transferir_mbr_para_alu_b", "comparar_alu_a_com_alu_b_8_bits"]
+direto = "17"
+imediato = "27"
+indexado = "37"
+indireto = "97"
+pos_indexado = "B7"
+pre_indexado = "C7"
+implicito = ""

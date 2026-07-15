@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_nh7t4"]
+
+[resource]
+script = ExtResource("1_nh7t4")
+nome = "Shift right double"
+"mnemônico" = "SRD"
+"descrição" = "Desloca o par B:A uma posição à direita, inserindo zero."
+tamanho_do_dado = 0
+microoperacoes = ["transferir_a_para_mbr", "transferir_b_para_aux", "unir_mbr_ao_aux_e_transferir_para_alu_a_reverso", "realizar_deslocamento_direita_alu_a_16_bits", "dividir_alu_saida_e_transferir_para_aux_e_mbr", "transferir_mbr_para_a", "transferir_aux_para_b"]
+direto = ""
+imediato = ""
+indexado = ""
+indireto = ""
+pos_indexado = ""
+pre_indexado = ""
+implicito = "4B"

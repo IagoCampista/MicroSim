@@ -1,0 +1,26 @@
+versao="1.0"
+
+; Testa o SBA subtraindo B de A.
+
+[inicio]
+registrador.pc="0"
+registrador.a="09"
+registrador.b="04"
+instrucoes=[
+	"SBA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="05"
+registrador.b="04"
+flag.z="0"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+memoria = {
+    "000": "49",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

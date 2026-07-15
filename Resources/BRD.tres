@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_6jn3d"]
+
+[resource]
+script = ExtResource("1_6jn3d")
+nome = "Branch if overflow"
+"mnemônico" = "BRD"
+"descrição" = "Ocorre um desvio para a instrução indicada se houver overflow."
+microoperacoes = [{
+"se_flag_o_igual_um": ["transferir_mar_para_pc"]
+}]
+direto = "A7"
+imediato = ""
+indexado = ""
+indireto = ""
+pos_indexado = ""
+pre_indexado = ""
+implicito = ""

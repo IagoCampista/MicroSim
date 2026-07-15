@@ -1,0 +1,57 @@
+versao="1.0"
+
+; Encadeia shifts de 8 bits com branches dependentes das flags
+; geradas por cada operacao.
+;
+; Fluxo esperado:
+; 1. SRA em A=01 gera A=00 e carry=1.
+; 2. BRR deve tomar o desvio por causa desse carry e pular o TBA.
+; 3. SLA sobre A=00 preserva zero.
+; 4. BRE deve tomar o desvio por causa de Z=1 e pular o TAB.
+; 5. ORA #80 coloca o bit de sinal em A.
+; 6. SAA faz shift aritmetico para a direita, preservando o sinal.
+; 7. BRL deve tomar o desvio porque N=1 apos o SAA.
+; 8. O ultimo TBA tambem deve ser pulado, encerrando diretamente no CAL EXIT.
+
+[inicio]
+registrador.pc="0"
+registrador.a="01"
+registrador.b="22"
+flag.o="0"
+; 0000: produz carry
+; 0001-0003: branch por carry
+; 0004: nao deve executar
+; 0005: mantem resultado zero
+; 0006-0008: branch por zero
+; 0009: nao deve executar
+; 000A-000B: prepara valor negativo
+; 000C: shift aritmetico preservando sinal
+; 000D-000F: branch por negativo
+; 0010: nao deve executar
+; 0011: encerramento
+instrucoes=[
+	"SRA",
+	"BRR 0005",
+	"TBA",
+	"SLA",
+	"BRE 000A",
+	"TAB",
+	"ORA #80",
+	"SAA",
+	"BRL 0011",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - A terminar em C0, resultado do ORA seguido de SAA;
+; - B permanecer 22, provando que os dois TAB/TBA pulados realmente nao rodaram;
+; - as flags finais reflitam a ultima operacao de shift, nao os branches.
+registrador.a="C0"
+registrador.b="22"
+registrador.pc="14"
+flag.z="0"
+flag.n="1"
+flag.c="0"
+flag.o="0"

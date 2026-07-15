@@ -6,7 +6,7 @@ signal mudanca_de_ciclo
 signal programa_iniciado
 
 
-enum Ciclo 			{ BUSCA, DECODIFICACAO, EXECUCAO }
+enum Ciclo 			{ BUSCA, DECODIFICACAO, ENDERECAMENTO, EXECUCAO }
 enum ModoExecucao 	{ UNICA_MICROOPERACAO, UNICA_INSTRUCAO, TUDO }
 
 @export var time_delay 		: float 		= 0.1
@@ -15,6 +15,7 @@ var fase_atual 				: Fase 			= Suspensao.new(Busca.new())
 var modo_atual 				: ModoExecucao	= ModoExecucao.TUDO
 var instrucao_atual			: Instrucao
 var atualizacao_visual_ativa: bool 			= true
+var log_microoperacoes		: bool 			= true
 var fila_de_microoperacoes	: Array 		= []
 var ciclo_atual				: Ciclo
 
@@ -49,14 +50,14 @@ func executar_proxima_microoperacao_da_fila():
 		_:
 			push_error("Operador de instrução inválido")
 	
-	if not Teste.em_modo_multiplos_teste():
+	if self.log_microoperacoes and not Teste.em_modo_multiplos_teste():
 		print("O simulador vai executar: ", instrucao, " | ", self.fila_de_microoperacoes)
 
 	if CPU.has_method(instrucao):
 		CPU.call(instrucao)
 	else:
 		if instrucao == "---":
-			self.mudanca_de_ciclo.emit(Ciclo.BUSCA)
+			pass
 		else:
 			if UnidadeDeControle.has_method(instrucao):
 				UnidadeDeControle.call(instrucao)
@@ -168,7 +169,7 @@ func preparar_enderecamento():
 
 			self.adicionar_a_fila("transferir_mar_para_alu_a")
 			self.adicionar_a_fila("transferir_ix_para_alu_b")
-			self.adicionar_a_fila("adicao_alu_a_alu_b")
+			self.adicionar_a_fila("adicao_alu_a_alu_b_16_bits")
 			self.adicionar_a_fila("transferir_alu_saida_para_mar")
 
 			# O PC é incrementado em 2
@@ -200,7 +201,7 @@ func preparar_enderecamento():
 			
 			self.adicionar_a_fila("transferir_mar_para_alu_a")
 			self.adicionar_a_fila("transferir_ix_para_alu_b")
-			self.adicionar_a_fila("adicao_alu_a_alu_b")
+			self.adicionar_a_fila("adicao_alu_a_alu_b_16_bits")
 			self.adicionar_a_fila("transferir_alu_saida_para_mar")
 
 			# Transferência do MAR para o Endereço de Memória via o BUS de Endereço
@@ -271,8 +272,9 @@ func preparar_enderecamento():
 			# Transferência de PC para MAR
 			self.adicionar_a_fila("transferir_pc_para_mar")
 
-			# PC é incrementado em 1
-			self.adicionar_a_fila("incrementar_registrador_pc")
+			# O PC é incrementado de acordo com o tamanho do operando
+			for _i in range(self.instrucao_atual.tamanho_do_dado):
+				self.adicionar_a_fila("incrementar_registrador_pc")
 		Instrucao.Enderecamentos.DIRETO:
 			# Transferência de PC para MAR
 			self.adicionar_a_fila("transferir_pc_para_mar")
@@ -325,7 +327,7 @@ func preparar_enderecamento():
 			# Somar o valor de IX ao endereço calculado
 			self.adicionar_a_fila("transferir_mar_para_alu_a")
 			self.adicionar_a_fila("transferir_ix_para_alu_b")
-			self.adicionar_a_fila("adicao_alu_a_alu_b")
+			self.adicionar_a_fila("adicao_alu_a_alu_b_16_bits")
 			self.adicionar_a_fila("transferir_alu_saida_para_mar")
 			
 			# O PC é incrementado em 2
@@ -372,6 +374,7 @@ func obter_nome_fase() -> String:
 	match self.fase_atual:
 		Simulador.Ciclo.BUSCA: return "BUSCA"
 		Simulador.Ciclo.DECODIFICACAO: return "DECODIFICACAO"
+		Simulador.Ciclo.ENDERECAMENTO: return "ENDERECAMENTO"
 		Simulador.Ciclo.EXECUCAO: return "EXECUCAO"
 		_:
 			return "SUSPENSAO"
@@ -395,6 +398,7 @@ func obter_ciclo_atual() -> String:
 	match self.ciclo_atual:
 		Ciclo.BUSCA: return "BUSCA"
 		Ciclo.DECODIFICACAO: return "DECODIFICACAO"
+		Ciclo.ENDERECAMENTO: return "ENDERECAMENTO"
 		Ciclo.EXECUCAO: return "EXECUCAO"
 		_:
 			return ""
@@ -444,11 +448,18 @@ class Decodificacao extends Fase:
 		Simulador.preparar_decodificacao()
 	
 	func saída() -> void:
+		if not Simulador.instrucao_atual:
+			self.alterar_fase(Suspensao.new(Busca.new()))
+			return
 		self.alterar_fase(Enderecamento.new())
 
 class Enderecamento extends Fase:
 	func entrada() -> void:
-		Simulador.mudanca_de_ciclo.emit(Ciclo.EXECUCAO)
+		if not Simulador.instrucao_atual:
+			Simulador.finalizar_execucao(false)
+			self.alterar_fase(Suspensao.new(Busca.new()))
+			return
+		Simulador.mudanca_de_ciclo.emit(Ciclo.ENDERECAMENTO)
 		Simulador.preparar_enderecamento()
 	
 	func saída() -> void:
@@ -461,6 +472,7 @@ class Enderecamento extends Fase:
 
 class Execucao extends Fase:
 	func entrada() -> void:
+		Simulador.mudanca_de_ciclo.emit(Ciclo.EXECUCAO)
 		Simulador.preparar_execucao()
 	
 	func saída() -> void:

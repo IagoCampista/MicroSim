@@ -1,0 +1,20 @@
+versao="1.0"
+
+; Testa o CLD limpando a flag de overflow.
+
+[inicio]
+registrador.pc="0"
+flag.o="1"
+instrucoes=[
+	"CLD",
+	"CAL EXIT"
+]
+
+[fim]
+flag.o="0"
+memoria = {
+    "000": "0D",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

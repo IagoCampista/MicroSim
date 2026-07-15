@@ -1,0 +1,39 @@
+versao="1.0"
+
+; Testa o PPF restaurando Z, N, C e O a partir da pilha.
+
+[inicio]
+registrador.pc="0"
+registrador.a="01"
+registrador.pp="0FFF"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="1"
+instrucoes=[
+	"PHF",
+	"CLD",
+	"CRL",
+	"CPA #02",
+	"PPF",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="01"
+registrador.pp="0FFF"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="1"
+memoria = {
+    "000": "4E",
+    "001": "0D",
+    "002": "0E",
+    "003": "27",
+    "004": "02",
+    "005": "4D",
+    "006": "58",
+    "007": "12",
+    "008": "00",
+}

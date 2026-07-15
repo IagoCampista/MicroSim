@@ -6,7 +6,7 @@
 script = ExtResource("1_lv84m")
 nome = "Add A to B"
 "mnemônico" = "ABA"
-"descrição" = "Adição do valor do registrador A em B"
+"descrição" = "Soma o valor do registrador A com o registrador B e armazena o resultado em A."
 tamanho_do_dado = 0
 microoperacoes = ["transferir_a_para_alu_a", "transferir_b_para_alu_b", "adicao_alu_a_alu_b", "transferir_alu_saida_para_a"]
 direto = ""

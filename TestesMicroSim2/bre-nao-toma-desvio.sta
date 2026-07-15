@@ -1,0 +1,31 @@
+versao="1.0"
+
+; Testa o BRE quando Z = 0.
+; CPA não gera igualdade, então TBA deve executar e copiar B para A.
+
+[inicio]
+registrador.pc="0"
+registrador.a="04"
+registrador.b="22"
+instrucoes=[
+	"CPA #05",
+	"BRE 0006",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="22"
+registrador.b="22"
+flag.z="0"
+memoria = {
+    "000": "27",
+    "001": "05",
+    "002": "A0",
+    "003": "00",
+    "004": "06",
+    "005": "42",
+    "006": "58",
+    "007": "12",
+    "008": "00",
+}

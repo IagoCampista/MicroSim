@@ -63,11 +63,6 @@ func _ready():
 	CPU.alu_saida_foi_atualizado.connect(atualizar_registrador.bind("ULASaida"))
 
 	Simulador.mudanca_de_ciclo.connect(fase_foi_alterada)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func atualizar_visualizacao():
 	# Resolvendo caixas
 	apagar_tweens()
@@ -110,8 +105,12 @@ func atualizar_visualizacao():
 			adicionar_fila_registrador_interagindo(["MBR", "AUX", "IX"])
 		"unir_mbr_ao_aux_e_transferir_para_alu_a":
 			adicionar_fila_registrador_interagindo(["AUX", "ULAA"])
+		"unir_mbr_ao_aux_e_transferir_para_alu_b":
+			adicionar_fila_registrador_interagindo(["MBR", "AUX", "ULAB"])
 		"dividir_ix_e_transferir_para_mbr_e_aux":
 			adicionar_fila_registrador_interagindo(["IX", "MBR", "AUX"])
+		"dividir_pp_e_transferir_para_mbr_e_aux":
+			adicionar_fila_registrador_interagindo(["PP", "MBR", "AUX"])
 		"dividir_pc_e_transferir_para_mbr_e_aux":
 			adicionar_fila_registrador_interagindo(["PC", "MBR", "AUX"])
 		"dividir_alu_saida_e_transferir_para_mbr_e_aux":
@@ -124,8 +123,12 @@ func atualizar_visualizacao():
 			adicionar_fila_registrador_interagindo(["MBR", "AUX", "IX"])
 		"unir_mbr_ao_aux_e_transferir_para_alu_a":
 			adicionar_fila_registrador_interagindo(["AUX", "ULAA"])
+		"unir_mbr_ao_aux_e_transferir_para_alu_b":
+			adicionar_fila_registrador_interagindo(["MBR", "AUX", "ULAB"])
 		"dividir_ix_e_transferir_para_mbr_e_aux":
 			adicionar_fila_registrador_interagindo(["IX", "MBR", "AUX"])
+		"dividir_pp_e_transferir_para_mbr_e_aux":
+			adicionar_fila_registrador_interagindo(["PP", "MBR", "AUX"])
 		"dividir_pc_e_transferir_para_mbr_e_aux":
 			adicionar_fila_registrador_interagindo(["PC", "MBR", "AUX"])
 		"dividir_alu_saida_e_transferir_para_mbr_e_aux":
@@ -146,10 +149,14 @@ func atualizar_visualizacao():
 			adicionar_fila_registrador_interagindo(["MBR", "ULAA"])
 		"transferir_mar_para_pc":
 			adicionar_fila_registrador_interagindo(["MAR", "PC"])
+		"transferir_a_para_b":
+			adicionar_fila_registrador_interagindo(["A", "B"])
 		"transferir_b_para_a":
 			adicionar_fila_registrador_interagindo(["B", "A"])
 		"transferir_mar_para_pp":
 			adicionar_fila_registrador_interagindo(["MAR", "PP"])
+		"transferir_pp_para_ix":
+			adicionar_fila_registrador_interagindo(["PP", "IX"])
 		"transferir_ix_para_a":
 			adicionar_fila_registrador_interagindo(["IX", "A"])
 		"transferir_ix_para_b":
@@ -339,6 +346,7 @@ func fase_foi_alterada(fase: Simulador.Ciclo):
 	match fase:
 		Simulador.Ciclo.BUSCA: fase_atual += "BUSCA"
 		Simulador.Ciclo.DECODIFICACAO: fase_atual += "DECODIFICAÇÃO"
+		Simulador.Ciclo.ENDERECAMENTO: fase_atual += "ENDEREÇAMENTO"
 		Simulador.Ciclo.EXECUCAO: fase_atual += "EXECUÇÃO"
 	
 	print(fase_atual)

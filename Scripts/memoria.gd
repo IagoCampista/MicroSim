@@ -18,11 +18,9 @@ func _ready():
 
 	Estado.sobrecarregar_memoria.connect(sobrescrever_toda_a_memoria)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func atualizar_valor_no_endereco_selecionado(valor: Valor):
+	if not self.validar_endereco(self.endereco_selecionado, "escrita"):
+		return
 	celulas.set(self.endereco_selecionado.como_int(), valor.como_int())
 
 	# TODO: talvez o emit não leve parâmetro e a memória 
@@ -48,6 +46,8 @@ func sobrescrever_parte_da_memoria(novos_dados: PackedByteArray, endereco_inicia
 	self.grupo_da_memoria_foi_atualizado.emit(endereco_inicial, novos_dados.size())
 
 func sobrescrever_uma_celula(novo_dado: int, endereco: int):
+	if not self.validar_endereco(Valor.new(endereco), "escrita"):
+		return
 	self.celulas.set(endereco, novo_dado)
 	self.grupo_da_memoria_foi_atualizado.emit(endereco, 1)
 
@@ -55,9 +55,20 @@ func ler_conteudo_no_endereco_selecionado() -> Valor:
 	return self.ler_conteudo_no_endereco(self.endereco_selecionado)
 
 func ler_conteudo_no_endereco(endereco: Valor) -> Valor:
+	if not self.validar_endereco(endereco, "leitura"):
+		return Valor.new(0)
 	var celula = self.celulas[endereco.como_int()]
 	var novo_valor = Valor.new(celula)
 	return novo_valor
+
+func validar_endereco(endereco: Valor, operacao: String = "acesso") -> bool:
+	var endereco_int: int = endereco.como_int()
+	if endereco_int >= 0 and endereco_int < self.celulas.size():
+		return true
+
+	push_error("Tentativa de " + operacao + " fora da faixa da memória no endereço " + endereco.como_hex(4, true) + ".")
+	Simulador.finalizar_execucao(false)
+	return false
 
 func carregar_arquivo_de_memoria(caminho: String):
 	var arquivo : FileAccess 		= FileAccess.open(caminho, FileAccess.READ)

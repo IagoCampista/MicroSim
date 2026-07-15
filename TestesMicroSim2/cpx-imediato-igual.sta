@@ -1,0 +1,28 @@
+versao="1.0"
+
+[inicio]
+registrador.pc="0"
+registrador.ix="1234"
+flag.z="0"
+flag.n="0"
+flag.c="0"
+flag.o="0"
+instrucoes=[
+	"CPX #1234",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.ix="1234"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+memoria = {
+    "000": "2A",
+    "001": "12",
+    "002": "34",
+    "003": "58",
+    "004": "12",
+    "005": "00",
+}

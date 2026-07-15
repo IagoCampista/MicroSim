@@ -1,0 +1,27 @@
+versao="1.0"
+
+[inicio]
+registrador.pc="0"
+registrador.pp="1234"
+registrador.ix="0000"
+memoria.substituicoes = {
+    "010": "00",
+    "011": "00"
+}
+instrucoes=[
+	"STP 0010",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.pp="1234"
+memoria = {
+    "000": "1C",
+    "001": "00",
+    "002": "10",
+    "003": "58",
+    "004": "12",
+    "005": "00",
+    "010": "12",
+    "011": "34",
+}

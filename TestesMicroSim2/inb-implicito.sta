@@ -1,0 +1,20 @@
+versao="1.0"
+
+; Testa o INB incrementando B em 8 bits.
+
+[inicio]
+registrador.pc="0"
+registrador.b="0F"
+instrucoes=[
+	"INB",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.b="10"
+memoria = {
+    "000": "46",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

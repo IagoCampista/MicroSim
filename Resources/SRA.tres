@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_0156l"]
+
+[resource]
+script = ExtResource("1_0156l")
+nome = "Shift right A"
+"mnemônico" = "SRA"
+"descrição" = "Desloca o registrador A uma posição à direita, inserindo zero."
+tamanho_do_dado = 0
+microoperacoes = ["transferir_a_para_alu_a", "realizar_deslocamento_direita_alu_a_8_bits", "transferir_alu_saida_para_a"]
+direto = ""
+imediato = ""
+indexado = ""
+indireto = ""
+pos_indexado = ""
+pre_indexado = ""
+implicito = "0B"

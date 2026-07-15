@@ -1,0 +1,60 @@
+versao="1.0"
+
+; Fecha o ciclo entre PP, IX e memoria usando leitura, escrita e comparacao.
+; A ideia e verificar que o valor de 16 bits trafega corretamente entre
+; registradores e memoria sem inverter bytes nem perder sincronismo.
+;
+; Fluxo esperado:
+; 1. TPX copia PP=3456 para IX.
+; 2. STP grava PP em 0020/0021.
+; 3. LDX 0020 recarrega IX a partir da memoria escrita por STP.
+; 4. STX 0022 grava IX em outro bloco de memoria.
+; 5. CPX #3456 confirma que IX manteve o valor correto durante o ciclo todo.
+
+[inicio]
+registrador.pc="0"
+registrador.pp="3456"
+registrador.ix="0000"
+flag.z="0"
+flag.n="0"
+flag.c="0"
+flag.o="0"
+memoria.substituicoes = {
+	"020": "00",
+	"021": "00",
+	"022": "00",
+	"023": "00"
+}
+; 0000: copia PP para IX
+; 0001-0003: grava PP em 0020
+; 0004-0006: recarrega IX de 0020
+; 0007-0009: grava IX em 0022
+; 000A-000C: compara IX
+; 000D: encerramento
+instrucoes=[
+	"TPX",
+	"STP 0020",
+	"LDX 0020",
+	"STX 0022",
+	"CPX #3456",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - PP continuar em 3456;
+; - IX terminar em 3456;
+; - a comparacao final marcar igualdade;
+; - 0020/0021 e 0022/0023 guardarem o mesmo valor em ordem correta.
+registrador.pp="3456"
+registrador.ix="3456"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+memoria = {
+	"020": "34",
+	"021": "56",
+	"022": "34",
+	"023": "56",
+}

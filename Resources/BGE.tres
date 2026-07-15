@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_f0wcx"]
+
+[resource]
+script = ExtResource("1_f0wcx")
+nome = "Branch if greater or equal"
+"mnemônico" = "BGE"
+"descrição" = "Ocorre um desvio para a instrução indicada se o valor for positivo ou zero."
+microoperacoes = [{
+"se_flag_n_igual_zero": ["transferir_mar_para_pc"]
+}]
+direto = "A5"
+imediato = ""
+indexado = ""
+indireto = ""
+pos_indexado = ""
+pre_indexado = ""
+implicito = ""

@@ -17,3 +17,4 @@ mono_crash.*.json
 # custom ignores
 .vscode/
 *.tmp
+.DS_Store

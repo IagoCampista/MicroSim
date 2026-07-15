@@ -1,0 +1,27 @@
+versao="1.0"
+
+; Testa o SLD deslocando B:A à esquerda.
+
+[inicio]
+registrador.pc="0"
+registrador.a="4D"
+registrador.b="91"
+flag.o="0"
+instrucoes=[
+	"SLD",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="9A"
+registrador.b="22"
+flag.z="0"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+memoria = {
+    "000": "4A",
+    "001": "58",
+    "002": "12",
+    "003": "00",
+}

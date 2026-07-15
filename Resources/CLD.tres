@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_46r51"]
+
+[resource]
+script = ExtResource("1_46r51")
+nome = "Clear overflow"
+"mnemônico" = "CLD"
+"descrição" = "Atribui o valor 0 ao flag de overflow."
+tamanho_do_dado = 0
+microoperacoes = ["atribuir_zero_a_flag_o"]
+direto = ""
+imediato = ""
+indexado = ""
+indireto = ""
+pos_indexado = ""
+pre_indexado = ""
+implicito = "0D"

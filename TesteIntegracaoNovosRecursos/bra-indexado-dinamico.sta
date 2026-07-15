@@ -1,0 +1,61 @@
+versao="1.0"
+
+; Valida que o valor atual de IX realmente participa do calculo do
+; destino em um BRA indexado.
+;
+; Fluxo esperado:
+; 1. LDX #0001 carrega IX.
+; 2. INX altera IX para 0002.
+; 3. BRA 0008, X deve usar o IX atualizado e cair em 000A.
+; 4. TBA, TAB e DEX ficam no caminho morto e nao devem executar.
+; 5. STX grava 0002 na memoria.
+; 6. CPX #0002 confirma que IX continuou correto apos o salto.
+
+[inicio]
+registrador.pc="0"
+registrador.a="11"
+registrador.b="22"
+registrador.ix="0000"
+flag.z="0"
+flag.n="0"
+flag.c="0"
+flag.o="0"
+memoria.substituicoes = {
+	"020": "00",
+	"021": "00"
+}
+; 0000-0003: prepara IX=0002
+; 0004-0006: salto indexado para 000A
+; 0007-0009: caminho morto que nao deve executar
+; 000A-000C: grava IX na memoria
+; 000D-000F: compara IX
+; 0010: encerramento
+instrucoes=[
+	"LDX #0001",
+	"INX",
+	"BRA 0008, X",
+	"TBA",
+	"TAB",
+	"DEX",
+	"STX 0020",
+	"CPX #0002",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - A e B permanecerem inalterados, provando que o caminho morto foi pulado;
+; - IX terminar em 0002;
+; - a comparacao marcar igualdade;
+; - a memoria em 0020/0021 receber 00 02.
+registrador.a="11"
+registrador.b="22"
+registrador.ix="0002"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+memoria = {
+	"020": "00",
+	"021": "02",
+}

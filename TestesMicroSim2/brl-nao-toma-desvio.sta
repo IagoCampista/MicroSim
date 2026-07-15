@@ -1,0 +1,32 @@
+versao="1.0"
+
+; Testa o BRL quando N = 0.
+; CPB gera resultado positivo, então TBA deve executar.
+
+[inicio]
+registrador.pc="0"
+registrador.a="11"
+registrador.b="07"
+instrucoes=[
+	"CPB #05",
+	"BRL 0006",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="07"
+registrador.b="07"
+flag.n="0"
+flag.z="0"
+memoria = {
+    "000": "67",
+    "001": "05",
+    "002": "A2",
+    "003": "00",
+    "004": "06",
+    "005": "42",
+    "006": "58",
+    "007": "12",
+    "008": "00",
+}

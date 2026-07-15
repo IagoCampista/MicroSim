@@ -1,0 +1,24 @@
+versao="1.0"
+
+[inicio]
+registrador.b="FF"
+registrador.pc="0"
+flag.c="1"
+instrucoes=[
+	"ARB #00",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.b="00"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+memoria = {
+    "000": "66",
+    "001": "00",
+    "002": "58",
+    "003": "12",
+    "004": "00",
+}

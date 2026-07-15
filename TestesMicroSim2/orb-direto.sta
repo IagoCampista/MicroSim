@@ -1,0 +1,24 @@
+versao="1.0"
+
+[inicio]
+registrador.b="0C"
+registrador.pc="0"
+memoria.substituicoes = {
+	"010": "03"
+}
+instrucoes=[
+	"ORB 0010",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.b="0F"
+memoria = {
+	"000": "53",
+	"001": "00",
+	"002": "10",
+	"003": "58",
+	"004": "12",
+	"005": "00",
+	"010": "03"
+}

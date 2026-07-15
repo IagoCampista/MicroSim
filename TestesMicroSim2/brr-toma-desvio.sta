@@ -1,0 +1,35 @@
+versao="1.0"
+
+; Testa o BRR quando C = 1.
+; ARA gera carry e o desvio deve pular TBA.
+
+[inicio]
+registrador.pc="0"
+registrador.a="FF"
+registrador.b="22"
+flag.c="1"
+instrucoes=[
+	"ARA #00",
+	"BRR 0006",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="00"
+registrador.b="22"
+flag.z="1"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+memoria = {
+    "000": "26",
+    "001": "00",
+    "002": "A6",
+    "003": "00",
+    "004": "06",
+    "005": "42",
+    "006": "58",
+    "007": "12",
+    "008": "00",
+}

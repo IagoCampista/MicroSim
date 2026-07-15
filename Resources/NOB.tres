@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1_y8hgn"]
+
+[resource]
+script = ExtResource("1_y8hgn")
+nome = "No B"
+"mnemônico" = "NOB"
+"descrição" = "Faz o complemento lógico do conteúdo de B."
+tamanho_do_dado = 0
+microoperacoes = ["transferir_b_para_alu_a", "operação_de_complemento_a_um_na_alu_8_bits", "transferir_alu_saida_para_b"]
+direto = ""
+imediato = ""
+indexado = ""
+indireto = ""
+pos_indexado = ""
+pre_indexado = ""
+implicito = "4F"

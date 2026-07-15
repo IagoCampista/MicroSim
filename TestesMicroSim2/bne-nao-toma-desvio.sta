@@ -1,0 +1,31 @@
+versao="1.0"
+
+; Testa o BNE quando Z = 1.
+; CPA gera igualdade, então TBA deve executar porque o desvio não acontece.
+
+[inicio]
+registrador.pc="0"
+registrador.a="05"
+registrador.b="22"
+instrucoes=[
+	"CPA #05",
+	"BNE 0006",
+	"TBA",
+	"CAL EXIT"
+]
+
+[fim]
+registrador.a="22"
+registrador.b="22"
+flag.z="1"
+memoria = {
+    "000": "27",
+    "001": "05",
+    "002": "A1",
+    "003": "00",
+    "004": "06",
+    "005": "42",
+    "006": "58",
+    "007": "12",
+    "008": "00",
+}

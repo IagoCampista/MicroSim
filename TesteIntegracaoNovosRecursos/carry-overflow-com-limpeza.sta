@@ -1,0 +1,97 @@
+versao="1.0"
+
+; Exercita branches por carry e overflow junto com as instrucoes
+; de limpeza explicita dessas flags.
+;
+; Fluxo esperado:
+; 1. ARA #00 com A=FF e C=1 gera A=00 e carry=1.
+; 2. BRR deve desviar e pular o primeiro TBA.
+; 3. CRL limpa carry.
+; 4. O segundo BRR nao deve desviar, entao TAB executa e B vira 00.
+; 5. ORA #7F prepara A para um caso classico de overflow.
+; 6. ARA #01 gera A=80 e overflow=1.
+; 7. BRD deve desviar e pular o TBA seguinte.
+; 8. CLD limpa overflow.
+; 9. O segundo BRD nao deve desviar, entao TAB executa e B vira 80.
+
+[inicio]
+registrador.pc="0"
+registrador.a="FF"
+registrador.b="22"
+flag.z="0"
+flag.n="0"
+flag.c="1"
+flag.o="0"
+; 0000-0001: gera carry
+; 0002-0004: BRR deve desviar
+; 0005: nao deve executar
+; 0006: limpa carry
+; 0007-0009: BRR nao deve desviar
+; 000A: executa e copia A=00 para B
+; 000B-000C: prepara A=7F
+; 000D-000E: gera overflow
+; 000F-0011: BRD deve desviar
+; 0012: nao deve executar
+; 0013: limpa overflow
+; 0014-0016: BRD nao deve desviar
+; 0017: executa e copia A=80 para B
+; 0018: encerramento
+instrucoes=[
+	"ARA #00",
+	"BRR 0006",
+	"TBA",
+	"CRL",
+	"BRR 000A",
+	"TAB",
+	"ORA #7F",
+	"ARA #01",
+	"BRD 0013",
+	"TBA",
+	"CLD",
+	"BRD 0017",
+	"TAB",
+	"CAL EXIT"
+]
+
+[fim]
+; O teste passa se:
+; - o primeiro BRR e o primeiro BRD forem tomados;
+; - o segundo BRR e o segundo BRD nao forem tomados;
+; - B terminar em 80, refletindo apenas os TAB realmente executados;
+; - as flags finais reflitam o estado apos CLD, nao apos os branches.
+registrador.a="80"
+registrador.b="80"
+registrador.pc="1B"
+flag.z="0"
+flag.n="1"
+flag.c="0"
+flag.o="0"
+memoria = {
+	"000": "26",
+	"001": "00",
+	"002": "A6",
+	"003": "00",
+	"004": "06",
+	"005": "42",
+	"006": "0E",
+	"007": "A6",
+	"008": "00",
+	"009": "0A",
+	"00A": "41",
+	"00B": "23",
+	"00C": "7F",
+	"00D": "26",
+	"00E": "01",
+	"00F": "A7",
+	"010": "00",
+	"011": "13",
+	"012": "42",
+	"013": "0D",
+	"014": "A7",
+	"015": "00",
+	"016": "17",
+	"017": "41",
+	"018": "58",
+	"019": "12",
+	"01A": "00",
+}

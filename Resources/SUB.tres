@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Operador" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Operador.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+nome = "Subtract from B"
+"mnemônico" = "SUB"
+"descrição" = "Subtrai o operando do conteúdo do registrador B e armazena o resultado em B."
+tamanho_do_dado = 1
+microoperacoes = [
+    "transferir_mar_ao_endereco_de_memoria", 
+    "transferir_valor_da_memoria_ao_mbr", 
+    "transferir_mbr_para_alu_a", 
+    "operação_de_complemento_a_dois_na_alu_8_bits", 
+    "transferir_alu_saida_para_mbr", 
+    "transferir_b_para_alu_a", 
+    "transferir_mbr_para_alu_b", 
+    "adicao_alu_a_alu_b", 
+    "transferir_alu_saida_para_b"]
+direto = "55"
+imediato = "65"
+indexado = "75"
+indireto = "D5"
+pos_indexado = "E5"
+pre_indexado = "F5"
+implicito = ""
